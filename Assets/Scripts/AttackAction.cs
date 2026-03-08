@@ -37,6 +37,7 @@ public class AttackAction : BattleAction
             damage = Mathf.Max(1, damage);
             target.TakeDamage(damage);
             Debug.Log($"{user.combatantName} dealt {damage} damage to {target.combatantName}");
+            BattleLog.Instance.AddMessage($"{user.combatantName} attacked {target.combatantName} for {damage:F0} damage!");
         }
     }
 }

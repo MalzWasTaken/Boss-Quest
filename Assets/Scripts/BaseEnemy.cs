@@ -23,5 +23,6 @@ public class BaseEnemy : Combatant
         base.TakeDamage(damage);
         if(!IsAlive)
             Debug.Log($"{combatantName} was defeated!");
+            BattleLog.Instance.AddMessage($"{combatantName} has been defeated!");
     }
 }

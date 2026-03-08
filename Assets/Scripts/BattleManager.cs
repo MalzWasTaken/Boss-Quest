@@ -108,6 +108,8 @@ public class BattleManager : MonoBehaviour
             plan.action.Execute(plan.user, plan.targets);
 
             Debug.Log($"{plan.user.combatantName} used {plan.action.actionName}!");
+            BattleLog.Instance.AddMessage($"{plan.user.combatantName} used {plan.action.actionName}!");
+
 
             yield return new WaitForSeconds(1.2f);
 
@@ -122,11 +124,13 @@ public class BattleManager : MonoBehaviour
         if (heroes.All(h => !h.IsAlive))
         {
             Debug.Log("Game Over!");
+            BattleLog.Instance.AddMessage("Game Over!");
             return true;
         }
         if (enemies.All(e => !e.IsAlive))
         {
             Debug.Log("Victory!");
+            BattleLog.Instance.AddMessage("Victory!");
             return true;
         }
         return false;

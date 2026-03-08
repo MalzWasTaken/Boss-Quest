@@ -18,6 +18,7 @@ public class BaseHero : Combatant
         base.TakeDamage(damage);
         if(!IsAlive)
             Debug.Log($"{combatantName} died!");
+            BattleLog.Instance.AddMessage($"{combatantName} died!");
     }
 }
     

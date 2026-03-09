@@ -14,6 +14,7 @@ public class DamageNumberSpawner : MonoBehaviour
 
     public void Spawn(float damage, Vector3 worldPosition, bool isCrit = false)
     {
+        Debug.Log($"Spawning Damage Number: {damage} at {worldPosition}");
         //converting world position to screen position
         Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
 

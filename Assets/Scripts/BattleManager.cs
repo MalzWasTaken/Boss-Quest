@@ -31,6 +31,9 @@ public class BattleManager : MonoBehaviour
     //planning phase
     void StartPlanningPhase()
     {
+        foreach (var hero in heroes) hero.isDefending = false;
+        foreach (var enemy in enemies) enemy.isDefending = false;
+
         plannedActions.Clear();
         currentHeroIndex = 0;
         Debug.Log("Planning phase started");
@@ -57,12 +60,16 @@ public class BattleManager : MonoBehaviour
     public void OnActionConfirmed(BattleAction action, Combatant target)
     {
         Debug.Log($"Action confirmed for hero index {currentHeroIndex}");
+        if(action != null)
+        {
+            
         plannedActions.Add(new PlannedAction
         {
             user = heroes[currentHeroIndex],
             action = action,
             targets = target != null ? new List<Combatant> {target} : new List<Combatant>()
         });
+        }
 
         currentHeroIndex++;
         PromptNextHero();
@@ -104,10 +111,29 @@ public class BattleManager : MonoBehaviour
         foreach (var plan in plannedActions)
         {
             if (!plan.user.IsAlive) continue;
+            
+            plan.targets.RemoveAll(t => !t.IsAlive);
+            if (plan.targets.Count == 0)
+            {
+                //finding replacement target if target has died
+                List<Combatant> livingTargets = plan.user is BaseHero 
+                    ? GetLivingEnemies().Cast<Combatant>().ToList()
+                    : GetLivingHeroes().Cast<Combatant>().ToList();
 
-            plan.action.Execute(plan.user, plan.targets);
+                if (livingTargets.Count == 0) continue;
+
+                plan.targets.Add(livingTargets[Random.Range(0, livingTargets.Count)]);
+            }
+
+            CombatantAnimator animator = plan.user.GetComponent<CombatantAnimator>();
+            if (animator != null && plan.targets.Count > 0 && plan.action.isAttack)
+                yield return animator.PlayAttackAnimation(plan.targets[0].transform);
 
             Debug.Log($"{plan.user.combatantName} used {plan.action.actionName}!");
+            plan.action.Execute(plan.user, plan.targets);
+
+            
+            if (BattleLog.Instance != null)
             BattleLog.Instance.AddMessage($"{plan.user.combatantName} used {plan.action.actionName}!");
 
 
@@ -124,12 +150,14 @@ public class BattleManager : MonoBehaviour
         if (heroes.All(h => !h.IsAlive))
         {
             Debug.Log("Game Over!");
+            if(BattleLog.Instance != null)
             BattleLog.Instance.AddMessage("Game Over!");
             return true;
         }
         if (enemies.All(e => !e.IsAlive))
         {
             Debug.Log("Victory!");
+             if(BattleLog.Instance != null)
             BattleLog.Instance.AddMessage("Victory!");
             return true;
         }

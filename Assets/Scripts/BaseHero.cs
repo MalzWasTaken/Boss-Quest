@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class BaseHero : Combatant
@@ -7,10 +8,12 @@ public class BaseHero : Combatant
     public int intellect;
     public int dexterity;
 
-    // TakeTurn no longer used - actions are pre-selected now
+    public List<BattleAction> abilities;
+
+    
     public override void TakeTurn(TurnManager turnManager)
     {
-        // This shouldn't be called in the new DQ9-style system
+        // not used
     }
 
     public override void TakeDamage(float damage)
@@ -18,6 +21,7 @@ public class BaseHero : Combatant
         base.TakeDamage(damage);
         if(!IsAlive)
             Debug.Log($"{combatantName} died!");
+            if (BattleLog.Instance != null)
             BattleLog.Instance.AddMessage($"{combatantName} died!");
     }
 }

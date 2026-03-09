@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 959166321e9114341b13fe2e6761f704, type: 3}
-  m_Name: New Attack Action
-  m_EditorClassIdentifier: Assembly-CSharp::AttackAction
-  actionName: Attack
-  description: 
-  mpCost: 0
-  baseDamage: 15
-  accuracy: 1
+  m_Script: {fileID: 11500000, guid: b4ed565e5ce85eb42b64b6730071486b, type: 3}
+  m_Name: Double Slash
+  m_EditorClassIdentifier: Assembly-CSharp::DoubleSlash
+  actionName: Double Slash
+  mpCost: 4
+  targetsAllies: 0
+  isAttack: 1
+  baseDamage: 20
+  accuracy: 0.9
   damageVariance: 0.25
   criticalChance: 0.05
   criticalMultiplier: 1.5

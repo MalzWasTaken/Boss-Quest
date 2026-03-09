@@ -9,6 +9,7 @@ public enum MenuState
     AbilitySelect,
     ItemSelect,
     EnemySelect,
+    AllySelect,
     Inactive
 }
 
@@ -19,12 +20,16 @@ public class BattleMenuUI : MonoBehaviour
     public GameObject itemPanel; //List of items
     public GameObject enemyPanel; //Enemy select
 
+    public GameObject allyPanel; //ally select
+
     public GameObject buttonPrefab;
 
     public TMP_Text statusText;
 
     public BattleAction attackAction;
     public BattleAction defendAction;
+
+    public Button abilitiesButton;
 
 
     private MenuState state;
@@ -35,6 +40,9 @@ public class BattleMenuUI : MonoBehaviour
     {
         currentHero = hero;
         statusText.text = $"{hero.combatantName} is deciding...";
+
+        //grey out abilities button if none
+        abilitiesButton.interactable = hero.abilities != null && hero.abilities.Count > 0;
         SetState(MenuState.ActionSelect);
     }
 
@@ -47,6 +55,7 @@ public class BattleMenuUI : MonoBehaviour
         abilityPanel.SetActive(false);
         itemPanel.SetActive(false);
         enemyPanel.SetActive(false);
+        allyPanel.SetActive(false);
 
         switch (state)
         {
@@ -58,6 +67,10 @@ public class BattleMenuUI : MonoBehaviour
                 break;
             case MenuState.ItemSelect:
                 itemPanel.SetActive(true);
+                break;
+            case MenuState.AllySelect:
+                allyPanel.SetActive(true);
+                BuildAllyList();
                 break;
             case MenuState.EnemySelect:
                 enemyPanel.SetActive(true);
@@ -87,13 +100,34 @@ public class BattleMenuUI : MonoBehaviour
 
     public void OnDefendPressed()
     {
+        SetState(MenuState.Inactive);
         BattleManager.Instance.OnActionConfirmed(defendAction, null);
     }
+
+    public void OnRunPressed()
+{
+    if (Random.value > 0.5f)
+    {
+        Debug.Log("Successfully fled the battle!");
+        BattleLog.Instance?.AddMessage("Successfully fled the battle!");
+        // load overworld scene etc
+    }
+    else
+    {
+        Debug.Log("Couldn't escape!");
+        BattleLog.Instance?.AddMessage("Couldn't escape!");
+        SetState(MenuState.Inactive);
+        BattleManager.Instance.OnActionConfirmed(null, null);
+    }
+}
 
     //abilty and item submenus
     public void OnAbilitySelected(BattleAction ability)
     {
         pendingAction = ability;
+        if(ability.targetsAllies)
+        SetState(MenuState.AllySelect);
+        else
         SetState(MenuState.EnemySelect);
     }
 
@@ -111,8 +145,16 @@ public class BattleMenuUI : MonoBehaviour
         Debug.Log($"Enemy selected: {enemy.combatantName}");
         statusText.text = "";
         SetState(MenuState.Inactive);
-        BattleManager.Instance.OnActionConfirmed(pendingAction, enemy);
+        BattleManager.Instance?.OnActionConfirmed(pendingAction, enemy);
         
+    }
+
+    public void OnAllySelected(BaseHero hero)
+    {
+        Debug.Log($"Ally selected: {hero.combatantName}");
+        statusText.text = "";
+        SetState(MenuState.Inactive);
+        BattleManager.Instance?.OnActionConfirmed(pendingAction, hero);
     }
 
     //back button
@@ -132,27 +174,39 @@ public class BattleMenuUI : MonoBehaviour
     }
 
     void BuildAbilityList(BaseHero hero)
-    {
-        foreach (Transform child in abilityPanel.transform)
-            Destroy(child.gameObject);
-        
-        foreach (BattleAction action in hero.actions)
-        {
-            GameObject btn = Instantiate(buttonPrefab, abilityPanel.transform);
-            btn.GetComponentInChildren<TMP_Text>().text = action.actionName;
-            btn.GetComponent<Button>().onClick.AddListener(() => OnAbilitySelected(action));
+{
+    List<GameObject> toDestroy = new List<GameObject>();
+    foreach (Transform child in abilityPanel.transform)
+        if (child.name != "OUTLINE" && child.name != "BACKBUTTON")
+            toDestroy.Add(child.gameObject);
+    foreach (GameObject obj in toDestroy)
+        DestroyImmediate(obj);
 
-            // Grey out if not enough MP
-            btn.GetComponent<Button>().interactable = hero.currMP >= action.mpCost;
-        }
+    if (hero.abilities == null || hero.abilities.Count == 0)
+    {
+        BattleLog.Instance?.AddMessage($"{hero.combatantName} has no abilities!");
+        SetState(MenuState.ActionSelect);
+        return;
     }
+
+    foreach (BattleAction action in hero.abilities)
+    {
+        GameObject btn = Instantiate(buttonPrefab, abilityPanel.transform);
+        btn.GetComponentInChildren<TMP_Text>().text = action.actionName;
+        btn.GetComponent<Button>().interactable = hero.currMP >= action.mpCost;
+
+        BattleAction actionRef = action;
+        btn.GetComponent<Button>().onClick.AddListener(() => OnAbilitySelected(actionRef));
+    }
+}
+
 
     public void BuildEnemyList()
     {
-        Debug.Log($"Living enemies: {BattleManager.Instance.GetLivingEnemies().Count}");
+        Debug.Log($"Living enemies: {BattleManager.Instance?.GetLivingEnemies().Count}");
         List<GameObject> toDestroy = new List<GameObject>();
         foreach (Transform child in enemyPanel.transform)
-        if (child.name != "OUTLINE")
+        if (child.name != "OUTLINE" && child.name != "BACKBUTTON")
         toDestroy.Add(child.gameObject);
 
         foreach (GameObject obj in toDestroy)
@@ -165,6 +219,27 @@ public class BattleMenuUI : MonoBehaviour
 
             BaseEnemy enemyRef = enemy;
             btn.GetComponent<Button>().onClick.AddListener(() => OnEnemySelected(enemyRef));
+        }
+    }
+
+    public void BuildAllyList()
+    {
+        Debug.Log($"Living allies: {BattleManager.Instance?.GetLivingHeroes().Count}");
+        List<GameObject> toDestroy = new List<GameObject>();
+        foreach (Transform child in allyPanel.transform)
+        if (child.name != "OUTLINE" && child.name != "BACKBUTTON")
+        toDestroy.Add(child.gameObject);
+
+        foreach (GameObject obj in toDestroy)
+            DestroyImmediate(obj);
+
+        foreach (BaseHero hero in BattleManager.Instance.GetLivingHeroes())
+        {
+            GameObject btn = Instantiate(buttonPrefab, allyPanel.transform);
+            btn.GetComponentInChildren<TMP_Text>().text = hero.combatantName;
+
+            BaseHero heroRef = hero;
+            btn.GetComponent<Button>().onClick.AddListener(() => OnAllySelected(heroRef));
         }
     }
 

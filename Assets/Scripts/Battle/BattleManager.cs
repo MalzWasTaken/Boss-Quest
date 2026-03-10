@@ -21,7 +21,7 @@ public class BattleManager : MonoBehaviour
     {
         Instance = this;
     }
-   
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,7 +45,7 @@ public class BattleManager : MonoBehaviour
         //skipping dead heroes
         while (currentHeroIndex < heroes.Count && !heroes[currentHeroIndex].IsAlive)
             currentHeroIndex++;
-        
+
         if (currentHeroIndex >= heroes.Count)
         {
             //planning phase complete
@@ -53,22 +53,22 @@ public class BattleManager : MonoBehaviour
             StartExecutionPhase();
             return;
         }
-         Debug.Log($"Prompting hero {heroes[currentHeroIndex].combatantName}");
+        Debug.Log($"Prompting hero {heroes[currentHeroIndex].combatantName}");
         battleMenuUI.ShowForHero(heroes[currentHeroIndex]);
     }
 
     public void OnActionConfirmed(BattleAction action, Combatant target)
     {
         Debug.Log($"Action confirmed for hero index {currentHeroIndex}");
-        if(action != null)
+        if (action != null)
         {
-            
-        plannedActions.Add(new PlannedAction
-        {
-            user = heroes[currentHeroIndex],
-            action = action,
-            targets = target != null ? new List<Combatant> {target} : new List<Combatant>()
-        });
+
+            plannedActions.Add(new PlannedAction
+            {
+                user = heroes[currentHeroIndex],
+                action = action,
+                targets = target != null ? new List<Combatant> { target } : new List<Combatant>()
+            });
         }
 
         currentHeroIndex++;
@@ -80,21 +80,21 @@ public class BattleManager : MonoBehaviour
     void StartExecutionPhase()
     {
         Debug.Log($"Execution phase started with {plannedActions.Count} actions");
-        foreach(var enemy in enemies)
+        foreach (var enemy in enemies)
         {
-            if(enemy.IsAlive)
+            if (enemy.IsAlive)
             {
 
-            List<BaseHero> livingHeroes = GetLivingHeroes();
-            BattleAction action = enemy.actions[Random.Range(0, enemy.actions.Count)];
-            Combatant target = livingHeroes[Random.Range(0, livingHeroes.Count)];
+                List<BaseHero> livingHeroes = GetLivingHeroes();
+                BattleAction action = enemy.actions[Random.Range(0, enemy.actions.Count)];
+                Combatant target = livingHeroes[Random.Range(0, livingHeroes.Count)];
 
-            plannedActions.Add(new PlannedAction
-            {
-                user = enemy,
-                action = action,
-                targets = new List<Combatant> { target }
-            });
+                plannedActions.Add(new PlannedAction
+                {
+                    user = enemy,
+                    action = action,
+                    targets = new List<Combatant> { target }
+                });
             }
         }
 
@@ -102,7 +102,7 @@ public class BattleManager : MonoBehaviour
         plannedActions = plannedActions
             .OrderByDescending(p => p.user.currAGI)
             .ToList();
-        
+
         StartCoroutine(ExecuteAllActions());
     }
 
@@ -111,12 +111,12 @@ public class BattleManager : MonoBehaviour
         foreach (var plan in plannedActions)
         {
             if (!plan.user.IsAlive) continue;
-            
+
             plan.targets.RemoveAll(t => !t.IsAlive);
             if (plan.targets.Count == 0)
             {
                 //finding replacement target if target has died
-                List<Combatant> livingTargets = plan.user is BaseHero 
+                List<Combatant> livingTargets = plan.user is BaseHero
                     ? GetLivingEnemies().Cast<Combatant>().ToList()
                     : GetLivingHeroes().Cast<Combatant>().ToList();
 
@@ -130,7 +130,18 @@ public class BattleManager : MonoBehaviour
                 yield return animator.PlayAttackAnimation(plan.targets[0].transform);
 
             Debug.Log($"{plan.user.combatantName} used {plan.action.actionName}!");
-            plan.action.Execute(plan.user, plan.targets);
+            if (plan.user.currMP >= plan.action.mpCost)
+            {
+                plan.user.currMP -= plan.action.mpCost;
+                plan.action.Execute(plan.user, plan.targets);
+
+            }
+            else
+            {
+                Debug.Log($"{plan.user.combatantName} doesn't have enough MP!");
+            }
+
+
 
             
             
@@ -194,11 +205,11 @@ public class BattleManager : MonoBehaviour
 
     public List<BaseHero> GetLivingHeroes()
     {
-        return heroes.Where (h => h.IsAlive).ToList();
+        return heroes.Where(h => h.IsAlive).ToList();
     }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

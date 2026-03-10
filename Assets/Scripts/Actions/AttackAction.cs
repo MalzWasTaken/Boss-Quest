@@ -14,19 +14,20 @@ public class AttackAction : BattleAction
 
     public override void Execute(Combatant user, List<Combatant> targets)
     {
+        Debug.Log("AttackAction Execute called!");
         //hit check
         if (Random.value > accuracy)
         {
             Debug.Log($"{user.combatantName}'s attack missed!");
             return;
-        } 
+        }
 
         foreach (var target in targets)
         {
             // Calculate damage with variance
             float variance = Random.Range(1f - damageVariance, 1f + damageVariance);
             float damage = (baseDamage + user.currATK) * variance - target.currDEF;
-            
+
             // Critical hit chance
             bool isCrit = Random.value < criticalChance;
             if (isCrit)
@@ -34,11 +35,11 @@ public class AttackAction : BattleAction
                 damage *= criticalMultiplier;
                 Debug.Log($"{user.combatantName}'s critical hit!");
             }
-            
+
             damage = Mathf.Max(1, damage);
 
-            
-            
+
+
             Debug.Log($"{user.combatantName} dealt {damage} damage to {target.combatantName}");
           
             target.TakeDamage(damage);

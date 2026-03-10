@@ -84,6 +84,7 @@ public class BattleMenuUI : MonoBehaviour
     //action menu buttons
     public void OnAttackPressed()
     {
+        Debug.Log("Attack button pressed!");
         pendingAction = attackAction;
         SetState(MenuState.EnemySelect);
     }

@@ -160,19 +160,23 @@ public class BattleManager : MonoBehaviour
         if (heroes.All(h => !h.IsAlive))
         {
             Debug.Log("Game Over!");
-            
-            StartCoroutine(ReturnToOverworld(3f)); // 3 second wait
+            StartCoroutine(ShowGameOverAfterDelay());
             return true;
         }
         if (enemies.All(e => !e.IsAlive))
         {
             Debug.Log("Victory!");
-            
+            List<BaseEnemy> defeatedEnemies = new List<BaseEnemy>(enemies);
             RewardManager.Instance?.GiveRewards(heroes,enemies);
-            StartCoroutine(ReturnToOverworld(3f));
             return true;
         }
         return false;
+    }
+
+    IEnumerator ShowGameOverAfterDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        BattleResultUI.Instance?.ShowGameOver();
     }
 
     IEnumerator ReturnToOverworld(float delay)

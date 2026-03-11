@@ -81,6 +81,8 @@ public class BattleSpawner : MonoBehaviour
                 enemy.actions = def.actions;
                 enemy.enemyType = def.enemyType;
                 enemy.rarity = def.rarity;
+                enemy.expReward = def.expReward;
+                enemy.goldReward = def.goldReward;
 
                 // Register with BattleManager
                 BattleManager.Instance.enemies.Add(enemy);

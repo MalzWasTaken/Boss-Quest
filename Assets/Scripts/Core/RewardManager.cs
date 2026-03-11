@@ -14,10 +14,13 @@ public class RewardManager : MonoBehaviour {
     {
         int totalExp = 0;
         int totalGold = 0;
+        List <string> levelUps = new List<string>();
 
         //total reward calculation
+        Debug.Log($"GiveRewards called with {defeatedEnemies.Count} enemies");
         foreach (var enemy in defeatedEnemies)
         {
+            Debug.Log($"Enemy: {enemy.combatantName}, EXP: {enemy.expReward}");
             totalExp += enemy.expReward;
             totalGold += enemy.goldReward;
         }
@@ -39,12 +42,21 @@ public class RewardManager : MonoBehaviour {
 
             //check for level up
             if(hero.experience >= hero.expToNextLevel)
-                StartCoroutine(LevelUp(hero));
+            {
+                StartCoroutine(LevelUp(hero,levelUps));
+            }
+                
         }
+        StartCoroutine(ShowVictoryAfterDelay(expPerHero,totalGold,levelUps));
     }
 
+    IEnumerator ShowVictoryAfterDelay(int exp, int gold, List<string> levelUps)
+    {
+        yield return new WaitForSeconds(0.2f);
+        BattleResultUI.Instance?.ShowVictory(exp,gold,levelUps);
+    }
 
-    IEnumerator LevelUp(BaseHero hero)
+    IEnumerator LevelUp(BaseHero hero, List<string> levelUps)
     {
         hero.experience -= hero.expToNextLevel;
         hero.level++;
@@ -61,7 +73,8 @@ public class RewardManager : MonoBehaviour {
         hero.baseAGI += 1;
         hero.currAGI += 1;
 
-        yield return new WaitForSeconds(0.5f);
+        levelUps.Add($"{hero.combatantName} reached level {hero.level}!");
         Debug.Log($"{hero.combatantName} levelled up to level {hero.level}!");
+        yield return null;
     }
 }

@@ -32,6 +32,9 @@ public class DoubleSlash : BattleAction
         if (Random.value > accuracy)
         {
             Debug.Log($"{user.combatantName}'s attack missed!");
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{user.combatantName}'s attack missed!");
+
             return;
         }
 
@@ -46,12 +49,18 @@ public class DoubleSlash : BattleAction
             if (isCrit)
             {
                 damage *= criticalMultiplier;
+                //battle log message
+                BattleLogUI.Instance?.AddMessage($"Critical hit!");
+
             }
 
             damage = Mathf.Max(1, damage);
 
             
             Debug.Log($"{user.combatantName} dealt {damage} damage to {target.combatantName}");
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{user.combatantName} dealt {Mathf.RoundToInt(damage)} damage to {target.combatantName}!");
+
            
             target.TakeDamage(damage);
             DamageNumberSpawner.Instance?.Spawn(damage, target.transform.position, isCrit);

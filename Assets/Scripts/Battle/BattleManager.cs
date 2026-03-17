@@ -130,6 +130,8 @@ public class BattleManager : MonoBehaviour
                 yield return animator.PlayAttackAnimation(plan.targets[0].transform);
 
             Debug.Log($"{plan.user.combatantName} used {plan.action.actionName}!");
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{plan.user.combatantName} used {plan.action.actionName}!");
             if (plan.user.currMP >= plan.action.mpCost)
             {
                 plan.user.currMP -= plan.action.mpCost;

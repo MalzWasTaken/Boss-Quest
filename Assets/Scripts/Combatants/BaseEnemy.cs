@@ -5,10 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class BaseEnemy : Combatant
 {
-    public enum Type { GRASS, FIRE, WATER, ELECTRIC }
     public enum Rarity { COMMON, UNCOMMON, RARE, SUPERRARE }
 
-    public Type enemyType;
     public Rarity rarity;
     public int expReward;
     public int goldReward;
@@ -21,8 +19,13 @@ public class BaseEnemy : Combatant
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if(!IsAlive)
+        if (!IsAlive)
+        {
             Debug.Log($"{combatantName} was defeated!");
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{combatantName} was defeated!");
+        }
+            
           
     }
 }

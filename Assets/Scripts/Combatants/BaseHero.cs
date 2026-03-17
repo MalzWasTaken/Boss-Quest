@@ -21,8 +21,14 @@ public class BaseHero : Combatant
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if(!IsAlive)
+        if (!IsAlive)
+        {
             Debug.Log($"{combatantName} died!");
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{combatantName} died!");
+        }
+            
+
     }
 }
     

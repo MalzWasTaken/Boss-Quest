@@ -19,6 +19,9 @@ public class AttackAction : BattleAction
         if (Random.value > accuracy)
         {
             Debug.Log($"{user.combatantName}'s attack missed!");
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{user.combatantName}'s attack missed!");
+
             return;
         }
 
@@ -34,6 +37,9 @@ public class AttackAction : BattleAction
             {
                 damage *= criticalMultiplier;
                 Debug.Log($"{user.combatantName}'s critical hit!");
+                //battle log message
+                BattleLogUI.Instance?.AddMessage($"Critical hit!");
+
             }
 
             damage = Mathf.Max(1, damage);
@@ -41,7 +47,9 @@ public class AttackAction : BattleAction
 
 
             Debug.Log($"{user.combatantName} dealt {damage} damage to {target.combatantName}");
-          
+            //battle log message
+            BattleLogUI.Instance?.AddMessage($"{user.combatantName} dealt {Mathf.RoundToInt(damage)} damage to {target.combatantName}!");
+
             target.TakeDamage(damage);
             DamageNumberSpawner.Instance?.Spawn(damage, target.transform.position, isCrit);
         }

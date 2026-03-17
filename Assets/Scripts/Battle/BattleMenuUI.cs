@@ -127,6 +127,7 @@ public class BattleMenuUI : MonoBehaviour
     IEnumerator RunSuccess()
     {
         yield return new WaitForSeconds(1.5f);
+        AudioManager.Instance?.PlayOverworldMusic();
         BattleData.enemiesToSpawn.Clear();
 
         BattleData.heroStats.Clear();
@@ -136,7 +137,13 @@ public class BattleMenuUI : MonoBehaviour
             {
                 heroName = hero.combatantName,
                 currHP = hero.currHP,
-                currMP = hero.currMP
+                currMP = hero.currMP,
+                maxHP = hero.maxHP,
+                maxMP = hero.maxMP,
+                experience = hero.experience,
+                gold = hero.gold,
+                level = hero.level,
+                expToNextLevel = hero.expToNextLevel 
             });
         }
         UnityEngine.SceneManagement.SceneManager.LoadScene(BattleData.returnScene);

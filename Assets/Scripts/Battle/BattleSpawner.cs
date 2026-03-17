@@ -79,7 +79,6 @@ public class BattleSpawner : MonoBehaviour
                 enemy.currAGI = def.agility;
                 enemy.baseAGI = def.agility;
                 enemy.actions = def.actions;
-                enemy.enemyType = def.enemyType;
                 enemy.rarity = def.rarity;
                 enemy.expReward = def.expReward;
                 enemy.goldReward = def.goldReward;

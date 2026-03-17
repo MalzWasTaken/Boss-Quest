@@ -23,6 +23,5 @@ public class EnemyDefinition : ScriptableObject
     public List<BattleAction> actions;
 
     [Header("Enemy Info")]
-    public BaseEnemy.Type enemyType;
     public BaseEnemy.Rarity rarity;
 }

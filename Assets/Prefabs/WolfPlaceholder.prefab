@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1122668180814785749}
   - component: {fileID: 4466749840013791293}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: WolfPlaceholder
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 38b535a4cf6e5434f927549a9872be4c, type: 2}
+  - {fileID: 2100000, guid: be12fee802bb2d242badccab3c40c7a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,7 +140,6 @@ MonoBehaviour:
   baseAGI: 0
   actions: []
   isDefending: 0
-  enemyType: 0
   rarity: 0
   expReward: 0
   goldReward: 0

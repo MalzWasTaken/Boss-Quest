@@ -53,8 +53,22 @@ public class MainMenuUI : MonoBehaviour
     public void OnSettingsPressed()
     {
         ShowPanel(settingsPanel);
-        if (volumeSlider != null)
-            volumeSlider.value = AudioManager.Instance != null ? AudioManager.Instance.musicVolume : 0.7f;
+        if (volumeSlider != null && AudioManager.Instance != null)
+        {
+            volumeSlider.onValueChanged.RemoveAllListeners();
+            volumeSlider.value = AudioManager.Instance.musicVolume;
+            volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+        }
+    }
+
+    public void OnSaveSlotBackPressed()
+    {
+        ShowPanel(mainPanel);
+    }
+
+    public void OnSettingsBackPressed()
+    {
+        ShowPanel(mainPanel);
     }
 
     public void OnQuitPressed()
@@ -69,7 +83,10 @@ public class MainMenuUI : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.musicVolume = value;
-            AudioManager.Instance.musicSource.volume = value;
+            if (AudioManager.Instance.musicSource.isPlaying)
+            {
+                AudioManager.Instance.musicSource.volume = value;
+            }
         }
     }
 

@@ -191,6 +191,8 @@ public class BattleManager : MonoBehaviour
                 heroName = hero.combatantName,
                 currHP = hero.currHP,
                 currMP = hero.currMP,
+                maxHP = hero.maxHP,
+                maxMP = hero.maxMP,
                 experience = hero.experience,
                 gold = hero.gold,
                 level = hero.level,

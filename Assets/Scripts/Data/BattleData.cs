@@ -7,6 +7,7 @@ public static class BattleData
     public static string triggeredEnemyID = "";
     public static Vector3 playerReturnPosition;
     public static List<HeroData> heroStats = new List<HeroData>();
+    public static List<string> defeatedEnemyIDs = new List<string>();
 }
 
 public class HeroData
@@ -14,6 +15,8 @@ public class HeroData
     public string heroName;
     public float currHP;
     public float currMP;
+    public float maxHP;
+    public float maxMP;
     public int experience;
     public int gold;
     public int level;

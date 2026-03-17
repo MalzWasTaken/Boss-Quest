@@ -46,6 +46,8 @@ public class BattleResultUI : MonoBehaviour {
     {
         yield return StartCoroutine(FadeIn());
 
+        AudioManager.Instance?.PlayVictoryJingle();
+
         victoryPanel.SetActive(true);
         victoryExpText.text = $"EXP Gained: {expGained}";
         victoryGoldText.text = $"Gold Gained: {goldGained}";
@@ -100,6 +102,8 @@ public class BattleResultUI : MonoBehaviour {
                 heroName = hero.combatantName,
                 currHP = hero.currHP,
                 currMP = hero.currMP,
+                maxHP = hero.maxHP,
+                maxMP = hero.maxMP,
                 experience = hero.experience,
                 gold = hero.gold,
                 level = hero.level,

@@ -659,8 +659,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3609f07e7f834fc4d9d97f9470435a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatantAnimator
-  moveSpeed: 8
   attackDistance: 1.5
+  attackTrigger: Attack
+  hitTrigger: Hit
+  deathTrigger: Death
+  walkBool: isWalking
 --- !u!114 &138398123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,6 +682,7 @@ MonoBehaviour:
   shakeDuration: 0.3
   shakeMagnitude: 0.15
   healColor: {r: 0, g: 1, b: 0, a: 1}
+  deathParticlesPrefab: {fileID: 0}
 --- !u!1 &143161331
 GameObject:
   m_ObjectHideFlags: 0
@@ -3544,8 +3548,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3609f07e7f834fc4d9d97f9470435a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatantAnimator
-  moveSpeed: 8
   attackDistance: 1.5
+  attackTrigger: Attack
+  hitTrigger: Hit
+  deathTrigger: Death
+  walkBool: isWalking
 --- !u!114 &633696061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3564,6 +3571,7 @@ MonoBehaviour:
   shakeDuration: 0.3
   shakeMagnitude: 0.15
   healColor: {r: 0, g: 1, b: 0, a: 1}
+  deathParticlesPrefab: {fileID: 0}
 --- !u!1 &662291889
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,8 @@ public class HitEffect : MonoBehaviour
     private Color originalColor;
     private Vector3 originalPosition;
 
+    public GameObject deathParticlesPrefab;
+
     void Start()
     {
         objectRenderer = GetComponent<Renderer>();
@@ -59,6 +61,31 @@ public class HitEffect : MonoBehaviour
         }
 
         transform.localPosition = originalPosition;
+    }
+
+    public void PlayDeathEffect()
+    {
+        StartCoroutine(DeathRoutine());
+    }
+
+    IEnumerator DeathRoutine()
+    {
+        // Play death animation first
+        GetComponent<CombatantAnimator>()?.PlayDeathAnimation();
+        
+        // Wait a moment
+        yield return new WaitForSeconds(1f);
+
+        // Spawn particles at enemy position
+        if (deathParticlesPrefab != null)
+            Instantiate(deathParticlesPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+
+        // Wait for particles to start then hide the model
+        yield return new WaitForSeconds(0.2f);
+        
+        // Hide the model but keep the GameObject alive for battle logic
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
+            renderer.enabled = false;
     }
 
     public void PlayHealEffect()

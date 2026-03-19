@@ -25,10 +25,8 @@ public class BaseEnemy : Combatant
         }
         else
         {
-            GetComponent<CombatantAnimator>()?.PlayDeathAnimation();
+            GetComponent<HitEffect>()?.PlayDeathEffect();
             Debug.Log($"{combatantName} was defeated!");
         }
-            
-          
     }
 }

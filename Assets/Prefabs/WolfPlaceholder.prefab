@@ -85,6 +85,7 @@ MonoBehaviour:
   shakeDuration: 0.3
   shakeMagnitude: 0.15
   healColor: {r: 0, g: 1, b: 0, a: 1}
+  deathParticlesPrefab: {fileID: 9094519819275173376, guid: 51520ee6519cefc40a74eca2fcfab6e6, type: 3}
 --- !u!114 &3842466033001581033
 MonoBehaviour:
   m_ObjectHideFlags: 0

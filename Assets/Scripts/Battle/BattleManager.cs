@@ -31,6 +31,7 @@ public class BattleManager : MonoBehaviour
     //planning phase
     void StartPlanningPhase()
     {
+        BattleCameraController.Instance?.StartOrbiting();
         foreach (var hero in heroes) hero.isDefending = false;
         foreach (var enemy in enemies) enemy.isDefending = false;
 
@@ -124,7 +125,10 @@ public class BattleManager : MonoBehaviour
 
                 plan.targets.Add(livingTargets[Random.Range(0, livingTargets.Count)]);
             }
+            //focusing camera on attacker
+            BattleCameraController.Instance?.FocusOn(plan.user, plan.targets[0] as Combatant);
 
+            //attack animations
             CombatantAnimator animator = plan.user.GetComponent<CombatantAnimator>();
             if (animator != null && plan.targets.Count > 0 && plan.action.isAttack)
                 yield return animator.PlayAttackAnimation(plan.targets[0].transform);

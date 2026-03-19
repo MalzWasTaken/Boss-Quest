@@ -23,9 +23,57 @@ public class BattleManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+   void Start()
     {
+        StartCoroutine(BattleIntro());
+    }
+
+    IEnumerator BattleIntro()
+    {
+        yield return null;
+        foreach (var enemy in enemies)
+        {
+            EnemyIndicator indicator = enemy.GetComponentInChildren<EnemyIndicator>();
+            indicator?.SetName(enemy.combatantName);
+        }
+
+        if (enemies.Count > 0)
+        {
+            BattleCameraController.Instance?.StopOrbiting();
+            BattleCameraController.Instance?.FocusIntro(enemies[0]);
+        }
+
+        // Build intro message
+        BattleLogUI.Instance?.AddMessage(GetIntroMessage());
+
+        yield return new WaitForSeconds(1.2f);
         StartPlanningPhase();
+    }
+
+    string GetIntroMessage()
+    {
+        List<BaseEnemy> living = GetLivingEnemies();
+
+        if (living.Count == 1)
+        {
+            return $"A {living[0].combatantName} draws near!";
+        }
+
+        // Check if all enemies are the same type
+        bool allSame = living.TrueForAll(e => e.combatantName == living[0].combatantName);
+
+        if (allSame)
+        {
+            return living.Count == 2
+                ? $"Two {living[0].combatantName}s draw near!"
+                : $"Some {living[0].combatantName}s draw near!";
+        }
+
+        // Check if only two different types
+        if (living.Count == 2)
+            return $"A {living[0].combatantName} and a {living[1].combatantName} draw near!";
+
+        return "Enemies draw near!";
     }
 
     //planning phase
@@ -126,7 +174,10 @@ public class BattleManager : MonoBehaviour
                 plan.targets.Add(livingTargets[Random.Range(0, livingTargets.Count)]);
             }
             //focusing camera on attacker
-            BattleCameraController.Instance?.FocusOn(plan.user, plan.targets[0] as Combatant);
+            if (plan.action is HealAction)
+                BattleCameraController.Instance?.FocusOnHeal(plan.targets[0]);
+                else
+                BattleCameraController.Instance?.FocusOn(plan.user, plan.targets[0] as Combatant);
 
             //attack animations
             CombatantAnimator animator = plan.user.GetComponent<CombatantAnimator>();

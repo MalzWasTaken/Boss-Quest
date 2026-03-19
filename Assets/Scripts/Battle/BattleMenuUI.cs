@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public enum MenuState
 {
@@ -192,13 +193,16 @@ public class BattleMenuUI : MonoBehaviour
         {
             case MenuState.AbilitySelect:
             case MenuState.ItemSelect:
+            HideAllIndicators();
                 SetState(MenuState.ActionSelect); //back one level
                 break;
             case MenuState.EnemySelect:
             //go back to where we came from
+            HideAllIndicators();
                SetState(MenuState.ActionSelect);
                break;
             case MenuState.AllySelect:
+            HideAllIndicators();
                 SetState(MenuState.ActionSelect);
                 break;
         }
@@ -233,7 +237,6 @@ public class BattleMenuUI : MonoBehaviour
 
     public void BuildEnemyList()
     {
-        Debug.Log($"Living enemies: {BattleManager.Instance?.GetLivingEnemies().Count}");
         List<GameObject> toDestroy = new List<GameObject>();
         foreach (Transform child in enemyPanel.transform)
         if (child.name != "OUTLINE" && child.name != "BACKBUTTON")
@@ -248,7 +251,46 @@ public class BattleMenuUI : MonoBehaviour
             btn.GetComponentInChildren<TMP_Text>().text = enemy.combatantName;
 
             BaseEnemy enemyRef = enemy;
-            btn.GetComponent<Button>().onClick.AddListener(() => OnEnemySelected(enemyRef));
+
+            EnemyIndicator indicator = enemy.GetComponent<EnemyIndicator>();
+            Debug.Log($"Enemy: {enemy.combatantName}, Indicator: {indicator}");
+
+            // Hover events
+            EventTrigger trigger = btn.AddComponent<EventTrigger>();
+
+            EventTrigger.Entry enterEntry = new EventTrigger.Entry();
+            enterEntry.eventID = EventTriggerType.PointerEnter;
+            enterEntry.callback.AddListener((_) =>
+            {
+                Debug.Log("Hovering over enemy button");
+                HideAllIndicators();
+                if (indicator != null) indicator.ShowIndicator();
+                else Debug.Log("Indicator is null");
+            });
+            trigger.triggers.Add(enterEntry);
+
+            EventTrigger.Entry exitEntry = new EventTrigger.Entry();
+            exitEntry.eventID = EventTriggerType.PointerExit;
+            exitEntry.callback.AddListener((_) =>
+            {
+                if (indicator != null)
+                {
+                    indicator.HideIndicator();
+                    indicator.ShowNameOnly();
+                }
+            });
+            trigger.triggers.Add(exitEntry);
+
+            btn.GetComponent<Button>().onClick.AddListener(() => { HideAllIndicators();OnEnemySelected(enemyRef);});
+        }
+    }
+
+    void HideAllIndicators()
+    {
+        foreach (var enemy in BattleManager.Instance.GetLivingEnemies())
+        {
+            EnemyIndicator indicator = enemy.GetComponent<EnemyIndicator>();
+            if (indicator != null) indicator.HideIndicator();
         }
     }
 

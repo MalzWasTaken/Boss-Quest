@@ -40,4 +40,11 @@ public class DamageNumber : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    public void SetupHeal(float amount)
+    {
+        text.text = $"+{Mathf.RoundToInt(amount)}";
+        text.color = Color.green;
+        StartCoroutine(Animate());
+    }
 }

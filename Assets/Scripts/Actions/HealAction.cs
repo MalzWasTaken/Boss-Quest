@@ -10,7 +10,11 @@ public class HealAction : BattleAction
         foreach(var target in targets)
         {
             target.Heal(healAmount);
-            Debug.Log($"{user.combatantName} healed{target.combatantName} for {healAmount:F0} HP!");
+            BattleLogUI.Instance?.AddMessage($"{user.combatantName} healed {target.combatantName} for {healAmount} HP!");
+
+            HitEffect hitEffect = target.GetComponent<HitEffect>();
+            hitEffect?.PlayHealEffect();
+            DamageNumberSpawner.Instance?.SpawnHeal(healAmount, target.transform.position);
         }
     }
 }

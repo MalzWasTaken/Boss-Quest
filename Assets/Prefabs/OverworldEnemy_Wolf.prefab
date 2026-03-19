@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1901098349231094073
+--- !u!1 &1996431533651729421
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5416984282956156990}
-  - component: {fileID: 5325158836756275787}
-  - component: {fileID: 2961077793810678188}
-  - component: {fileID: 6586186408674530617}
-  - component: {fileID: 6262715723327645396}
-  - component: {fileID: 1122668180814785749}
-  - component: {fileID: 4466749840013791293}
+  - component: {fileID: 3050697485619018247}
+  - component: {fileID: 1516159470671781593}
+  - component: {fileID: 7564875518974289582}
+  - component: {fileID: 8653174158253757249}
+  - component: {fileID: 6643427697855564020}
+  - component: {fileID: 4571189277076941017}
   m_Layer: 0
-  m_Name: Goblin Placeholder
+  m_Name: OverworldEnemy_Wolf
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5416984282956156990
+--- !u!4 &3050697485619018247
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
+  m_GameObject: {fileID: 1996431533651729421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.66, y: 0.5, z: -3.15}
+  m_LocalPosition: {x: 106.2, y: 1, z: 125.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5325158836756275787
+--- !u!33 &1516159470671781593
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2961077793810678188
+  m_GameObject: {fileID: 1996431533651729421}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7564875518974289582
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
+  m_GameObject: {fileID: 1996431533651729421}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -70,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: df374f4865a682841a9676e7e7c99e0a, type: 2}
+  - {fileID: 2100000, guid: be12fee802bb2d242badccab3c40c7a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,13 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6586186408674530617
-BoxCollider:
+--- !u!136 &8653174158253757249
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
+  m_GameObject: {fileID: 1996431533651729421}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -109,68 +108,54 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6262715723327645396
+--- !u!195 &6643427697855564020
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996431533651729421}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4571189277076941017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
+  m_GameObject: {fileID: 1996431533651729421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79b69baaabb141f4797ebf1476d5a6b9, type: 3}
+  m_Script: {fileID: 11500000, guid: fdf3c28d7d2e93f4fb899f659ecf7d58, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseEnemy
-  combatantName: 
-  currHP: 0
-  maxHP: 0
-  currMP: 0
-  maxMP: 0
-  currATK: 0
-  baseATK: 0
-  currDEF: 0
-  baseDEF: 0
-  currAGI: 0
-  baseAGI: 0
-  actions: []
-  isDefending: 0
-  rarity: 0
-  expReward: 0
-  goldReward: 0
---- !u!114 &1122668180814785749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3609f07e7f834fc4d9d97f9470435a3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CombatantAnimator
-  moveSpeed: 8
-  attackDistance: 1.5
---- !u!114 &4466749840013791293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23221a2ab4efca7459c806331b0d132b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitEffect
-  flashColor: {r: 1, g: 0.6470588, b: 0, a: 1}
-  flashDuration: 0.15
-  flashCount: 2
-  shakeDuration: 0.3
-  shakeMagnitude: 0.15
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
+  possibleFormations:
+  - {fileID: 11400000, guid: 304e515eae7e3724780cede9f978de1c, type: 2}
+  - {fileID: 11400000, guid: 9bf289fed14259c4fbadf82efbc47ccf, type: 2}
+  - {fileID: 11400000, guid: 5313a2f33e7584540acf3e035b4569e0, type: 2}
+  detectionRange: 5
+  wanderRadius: 10
+  chaseSpeed: 4
+  wanderSpeed: 2
+  player: {fileID: 0}

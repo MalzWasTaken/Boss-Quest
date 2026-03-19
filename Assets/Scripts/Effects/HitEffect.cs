@@ -12,6 +12,9 @@ public class HitEffect : MonoBehaviour
     public float shakeDuration = 0.3f;
     public float shakeMagnitude = 0.15f;
 
+    [Header("Heal Settings")]
+    public Color healColor = Color.green;
+
     private Renderer objectRenderer;
     private Color originalColor;
     private Vector3 originalPosition;
@@ -56,6 +59,36 @@ public class HitEffect : MonoBehaviour
         }
 
         transform.localPosition = originalPosition;
+    }
+
+    public void PlayHealEffect()
+    {
+        StartCoroutine(HealFlash());
+    }
+
+    IEnumerator HealFlash()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            float elapsed = 0f;
+            float duration = 0.2f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                objectRenderer.material.color = Color.Lerp(originalColor, healColor, elapsed / duration);
+                yield return null;
+            }
+
+            elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                objectRenderer.material.color = Color.Lerp(healColor, originalColor, elapsed / duration);
+                yield return null;
+            }
+        }
+
+        objectRenderer.material.color = originalColor;
     }
 
     public void PlayDeathEffect()

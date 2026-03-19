@@ -3,6 +3,7 @@ using UnityEngine;
 public static class BattleData
 {
     public static List<EnemyDefinition> enemiesToSpawn = new List<EnemyDefinition>();
+    public static List<BattleFormation> possibleFormations = new List<BattleFormation>();
     public static string returnScene = "Overworld";
     public static string triggeredEnemyID = "";
     public static Vector3 playerReturnPosition;

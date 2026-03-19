@@ -84,7 +84,16 @@ public class BattleSpawner : MonoBehaviour
                 enemy.goldReward = def.goldReward;
 
                 // Register with BattleManager
-                BattleManager.Instance.enemies.Add(enemy);
+                if(enemy != null)
+                {
+                    enemy.combatantName = def.enemyName;
+                    BattleManager.Instance.enemies.Add(enemy);
+
+                    EnemyIndicator indicator = enemy.GetComponentInChildren<EnemyIndicator>();
+                    indicator?.SetName(def.enemyName);
+                    indicator?.ShowNameOnly();
+                }
+               
             }
         }
     }

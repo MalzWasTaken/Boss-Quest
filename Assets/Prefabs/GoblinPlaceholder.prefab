@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4466749840013791293}
   - component: {fileID: 3842466033001581033}
   m_Layer: 0
-  m_Name: WolfPlaceholder
+  m_Name: GoblinPlaceholder
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be12fee802bb2d242badccab3c40c7a4, type: 2}
+  - {fileID: 2100000, guid: df374f4865a682841a9676e7e7c99e0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

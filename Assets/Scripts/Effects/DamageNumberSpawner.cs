@@ -30,4 +30,19 @@ public class DamageNumberSpawner : MonoBehaviour
         obj.GetComponent<RectTransform>().localPosition = canvasPos;
         obj.GetComponent<DamageNumber>().Setup(damage, isCrit);
     }
+
+    public void SpawnHeal(float amount, Vector3 worldPosition)
+    {
+        Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.GetComponent<RectTransform>(),
+            screenPos,
+            null,
+            out Vector2 canvasPos
+        );
+
+        GameObject obj = Instantiate(damageNumberPrefab, canvas.transform);
+        obj.GetComponent<RectTransform>().localPosition = canvasPos;
+        obj.GetComponent<DamageNumber>().SetupHeal(amount);
+    }
 }

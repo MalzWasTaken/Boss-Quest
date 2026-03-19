@@ -1,106 +1,90 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class OverworldEnemy : MonoBehaviour
 {
-    [Header("Enemy Definition")]
-    public EnemyDefinition enemyDefinition;
+    [Header("Formations")]
+    public List<BattleFormation> possibleFormations; // assign 1 or more formations
 
-    [Header("Wander Settings")]
-    public float wanderRadius = 10f;
-    public float wanderTimer = 3f;
-    public float moveSpeed = 2f;
-
-    [Header("Chase Settings")]
-    public float detectionRange = 5f;
+    [Header("Detection")]
+    public float detectionRange = 8f;
+    public float wanderRadius = 5f;
     public float chaseSpeed = 4f;
-    public Transform player;
+    public float wanderSpeed = 2f;
 
+    public Transform player;
     private NavMeshAgent agent;
-    private float timer;
+    private Vector3 wanderTarget;
+    private bool battleTriggered = false;
 
     void Start()
     {
-        //disable if enemy defeated
-        if(BattleData.triggeredEnemyID == gameObject.name)
-        {
-            if(BattleData.enemiesToSpawn.Count == 0) //battle was won
-                gameObject.SetActive(false);
-            BattleData.triggeredEnemyID = "";
-        }
-
         agent = GetComponent<NavMeshAgent>();
-        timer = wanderTimer;
-        agent.speed = moveSpeed;
+        SetNewWanderTarget();
+
+        if (BattleData.defeatedEnemyIDs.Contains(gameObject.name))
+            gameObject.SetActive(false);
     }
 
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (battleTriggered || player == null) return;
 
-        if (distanceToPlayer < detectionRange)
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance < detectionRange)
         {
             agent.speed = chaseSpeed;
             agent.SetDestination(player.position);
         }
         else
         {
-            agent.speed = moveSpeed;
-            timer += Time.deltaTime;
-            if (timer >= wanderTimer)
-            {
-                agent.SetDestination(GetRandomPoint());
-                timer = 0f;
-            }
+            agent.speed = wanderSpeed;
+            if (agent.remainingDistance < 1f)
+                SetNewWanderTarget();
         }
+
+        if (distance < 1.2f)
+            TriggerBattle();
     }
 
-    Vector3 GetRandomPoint()
+    void SetNewWanderTarget()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
-        randomDirection += transform.position;
-        randomDirection.y = transform.position.y;
+        Vector3 randomDir = Random.insideUnitSphere * wanderRadius + transform.position;
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, 1);
-        return hit.position;
+        if (NavMesh.SamplePosition(randomDir, out hit, wanderRadius, NavMesh.AllAreas))
+            wanderTarget = hit.position;
+        agent.SetDestination(wanderTarget);
     }
 
-    void OnTriggerEnter(Collider other)
+    void TriggerBattle()
     {
-        if (other.CompareTag("Player"))
+        if (possibleFormations == null || possibleFormations.Count == 0)
         {
-            if (enemyDefinition == null)
-            {
-                Debug.LogWarning("No EnemyDefinition assigned!");
-                return;
-            }
-
-            Time.timeScale = 0f;
-            
-            // Pass enemy data to battle scene
-            BattleData.enemiesToSpawn.Clear();
-            BattleData.enemiesToSpawn.Add(enemyDefinition);
-            BattleData.returnScene = "Overworld";
-            BattleData.triggeredEnemyID = gameObject.name;
-            BattleData.playerReturnPosition = other.transform.position;
-
-            AudioManager.Instance?.PlayBattleMusic();
-
-           
-
-            WarpEffect.Instance.TriggerWarp(() =>
-            {
-                Time.timeScale = 1f;
-                UnityEngine.SceneManagement.SceneManager.LoadScene("BattleScene");
-            });
+            Debug.LogWarning("No formations assigned to " + gameObject.name);
+            return;
         }
-    }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, wanderRadius);
+        battleTriggered = true;
+        Time.timeScale = 0f;
+
+        // Pick a random formation
+        BattleFormation formation = possibleFormations[Random.Range(0, possibleFormations.Count)];
+
+        BattleData.enemiesToSpawn.Clear();
+        foreach (var enemy in formation.enemies)
+            BattleData.enemiesToSpawn.Add(enemy);
+
+        BattleData.returnScene = "Overworld";
+        BattleData.triggeredEnemyID = gameObject.name;
+        BattleData.playerReturnPosition = player.position;
+
+        AudioManager.Instance?.PlayBattleMusic();
+        WarpEffect.Instance.TriggerWarp(() =>
+        {
+            Time.timeScale = 1f;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("BattleScene");
+        });
     }
 }

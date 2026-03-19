@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goblin
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
   enemyName: Goblin
-  enemyPrefab: {fileID: 1901098349231094073, guid: a91ba9f2b1120e942864ae51d07b5be0, type: 3}
+  enemyPrefab: {fileID: 1901098349231094073, guid: c1493d5aaebf87447a7869511878a46d, type: 3}
   maxHP: 90
   maxMP: 0
   attack: 12

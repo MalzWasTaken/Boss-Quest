@@ -23,9 +23,6 @@ public abstract class Combatant : MonoBehaviour
 
         //hit effect
         HitEffect hitEffect = GetComponent<HitEffect>();
-        if(!IsAlive)
-            hitEffect?.PlayDeathEffect(); //crush on death
-        else
             hitEffect?.PlayHitEffect(); //hit effect if still alive
     }
 

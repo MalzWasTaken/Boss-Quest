@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6ab7efcc9e0403747b9a2b4b8c202901
+guid: d64bd4437cc2bab47a340633d13511a2
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -8,22 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Face
-    second: {fileID: 2100000, guid: f4205ae00443a044086c126dc6afe801, type: 2}
+    second: {fileID: 2100000, guid: 5b7e03a9d0bb1fb499f5360dd1c6bb2b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Pants
-    second: {fileID: 2100000, guid: 87d5d95a37059a047ae80d2d1bf79adb, type: 2}
+    second: {fileID: 2100000, guid: d903e3172ff22d14691e05d094b7c5a7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Skin
-    second: {fileID: 2100000, guid: 1ff81c4b78bcc7d48beee2e3ffbb3596, type: 2}
+    second: {fileID: 2100000, guid: 5037a14179cfb154d980fb7155b6cc49, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Teeth
-    second: {fileID: 2100000, guid: 4160cb62915c5cd4289bbb7f475f1a6e, type: 2}
+    second: {fileID: 2100000, guid: fe26173741053e843b4490212df42d4f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

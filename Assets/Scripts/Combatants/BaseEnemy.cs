@@ -19,11 +19,14 @@ public class BaseEnemy : Combatant
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if (!IsAlive)
+        if (IsAlive)
         {
+            GetComponent<CombatantAnimator>()?.PlayHitAnimation();
+        }
+        else
+        {
+            GetComponent<CombatantAnimator>()?.PlayDeathAnimation();
             Debug.Log($"{combatantName} was defeated!");
-            //battle log message
-            BattleLogUI.Instance?.AddMessage($"{combatantName} was defeated!");
         }
             
           

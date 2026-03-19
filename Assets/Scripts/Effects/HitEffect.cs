@@ -91,10 +91,10 @@ public class HitEffect : MonoBehaviour
         objectRenderer.material.color = originalColor;
     }
 
-    public void PlayDeathEffect()
-    {
-        StartCoroutine(DeathCrush());
-    }
+    // public void PlayDeathEffect()
+    // {
+    //     StartCoroutine(DeathCrush());
+    // }
 
     IEnumerator DeathCrush()
     {

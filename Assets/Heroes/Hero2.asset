@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3625b7f9d7bbb64483aba36c4d56818, type: 3}
+  m_Name: Hero2
+  m_EditorClassIdentifier: Assembly-CSharp::HeroDefinition
+  heroName: SlimeKiller
+  maxHP: 100
+  maxMP: 60
+  baseATK: 10
+  baseDEF: 7
+  baseAGI: 20
+  expToNextLevel: 4
+  abilities:
+  - {fileID: 11400000, guid: d4bc451fc0152c046a25b7011fa33e61, type: 2}
+  - {fileID: 11400000, guid: 7baa98f06e9355c4f9ce296aef9bdcb1, type: 2}

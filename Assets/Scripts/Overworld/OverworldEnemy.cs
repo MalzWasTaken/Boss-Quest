@@ -45,7 +45,7 @@ public class OverworldEnemy : MonoBehaviour
                 SetNewWanderTarget();
         }
 
-        if (distance < 1.2f)
+        if (distance <= 1.4f)
             TriggerBattle();
     }
 

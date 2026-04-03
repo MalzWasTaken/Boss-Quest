@@ -43,15 +43,17 @@ public class AttackAction : BattleAction
             }
 
             damage = Mathf.Max(1, damage);
+            float roundedDamage = Mathf.RoundToInt(damage);
 
 
-
-            Debug.Log($"{user.combatantName} dealt {damage} damage to {target.combatantName}");
+            Debug.Log($"{user.combatantName} dealt {roundedDamage} damage to {target.combatantName}");
             //battle log message
-            BattleLogUI.Instance?.AddMessage($"{user.combatantName} dealt {Mathf.RoundToInt(damage)} damage to {target.combatantName}!");
+           
 
-            target.TakeDamage(damage);
-            DamageNumberSpawner.Instance?.Spawn(damage, target.transform.position, isCrit);
+            target.TakeDamage(roundedDamage);
+            
+            DamageNumberSpawner.Instance?.Spawn(roundedDamage, target.transform.position, isCrit);
+            BattleLogUI.Instance?.AddMessage($"{user.combatantName} dealt {roundedDamage} damage to {target.combatantName}!");
         }
     }
 }

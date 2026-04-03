@@ -7,11 +7,11 @@ public class CombatantAnimator : MonoBehaviour
     public float attackDistance = 1.5f;
     private Vector3 startPosition;
 
-    // Animator parameter names - set these per enemy in Inspector
+    // Animator parameter names
     public string attackTrigger = "Attack";
     public string hitTrigger = "Hit";
     public string deathTrigger = "Death";
-    public string walkBool = "isWalking"; // isRunning for Goblin, isGalloping for Wolf
+    public string walkBool = "isWalking";
 
     void Start()
     {
@@ -75,6 +75,12 @@ public class CombatantAnimator : MonoBehaviour
         transform.rotation = startRotation;
     }
 
+    public void ResetTriggers()
+    {
+        animator?.ResetTrigger(attackTrigger);
+        animator?.ResetTrigger(hitTrigger);
+        animator?.ResetTrigger(deathTrigger);
+    }
 
     public void PlayHitAnimation()
     {

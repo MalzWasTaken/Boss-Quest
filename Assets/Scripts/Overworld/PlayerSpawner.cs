@@ -1,32 +1,31 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerSpawner : MonoBehaviour
 {
     public GameObject player;
+    public List <HeroDefinition> heroDefinitions;
 
     void Start()
     {
         
         if(BattleData.heroStats.Count == 0)
         {
-            BattleData.heroStats.Add(new HeroData
+            foreach(var def in heroDefinitions)
             {
-                heroName = "Malzino",
-                currHP = 100, maxHP = 100,
-                currMP = 10, maxMP = 10,
-                level = 1,
-                expToNextLevel = 100
-            });
-
-            BattleData.heroStats.Add(new HeroData
-            {
-                heroName = "SlimeKiller",
-                currHP = 100,maxHP = 100,
-                currMP = 30, maxMP = 30,
-                level = 1,
-                expToNextLevel = 100
-            });
+                BattleData.heroStats.Add(new HeroData
+                {
+                    heroName = def.heroName,
+                    currHP = def.maxHP,
+                    maxHP = def.maxHP,
+                    currMP = def.maxMP,
+                    maxMP = def.maxMP,
+                    level = 1,
+                    expToNextLevel = def.expToNextLevel
+                });
+            }
         }
+        
 
         if (BattleData.playerReturnPosition != Vector3.zero)
         {

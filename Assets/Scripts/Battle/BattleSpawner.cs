@@ -8,6 +8,7 @@ public class BattleSpawner : MonoBehaviour
 
     [Header("Default Enemies")]
     public List<EnemyDefinition> defaultEnemies; // used when testing battle scene directly
+    public List<HeroDefinition> heroDefinitions;
 
     void Start()
     {
@@ -21,21 +22,38 @@ public class BattleSpawner : MonoBehaviour
 
     void RestoreHeroStats()
     {
-        if(BattleData.heroStats.Count == 0) return;
-
-        foreach (var heroData in BattleData.heroStats)
+        for (int i = 0; i < BattleManager.Instance.heroes.Count; i++)
         {
-            BaseHero hero = BattleManager.Instance.heroes
-                .Find(h => h.combatantName == heroData.heroName);
-            
-            if(hero != null)
+            BaseHero hero = BattleManager.Instance.heroes[i];
+            HeroDefinition def = i < heroDefinitions.Count ? heroDefinitions[i] : null;
+
+            // Apply base stats from definition first
+            if (def != null)
             {
-                hero.currHP = heroData.currHP;
-                hero.currMP = heroData.currMP;
-                hero.experience = heroData.experience;
-                hero.gold = heroData.gold;
-                hero.level = heroData.level;
-                hero.expToNextLevel = heroData.expToNextLevel;
+                hero.maxHP = def.maxHP;
+                hero.maxMP = def.maxMP;
+                hero.baseATK = def.baseATK;
+                hero.currATK = def.baseATK;
+                hero.baseDEF = def.baseDEF;
+                hero.currDEF = def.baseDEF;
+                hero.baseAGI = def.baseAGI;
+                hero.currAGI = def.baseAGI;
+                hero.abilities = def.abilities;
+            }
+
+            // Then override with saved stats if they exist
+            if (i < BattleData.heroStats.Count)
+            {
+                HeroData data = BattleData.heroStats[i];
+                hero.combatantName = data.heroName;
+                hero.currHP = data.currHP;
+                hero.currMP = data.currMP;
+                hero.maxHP = data.maxHP;
+                hero.maxMP = data.maxMP;
+                hero.experience = data.experience;
+                hero.gold = data.gold;
+                hero.level = data.level;
+                hero.expToNextLevel = data.expToNextLevel;
             }
         }
     }

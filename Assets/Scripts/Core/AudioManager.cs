@@ -1,5 +1,3 @@
-using UnityEngine.UI;
-using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +5,6 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
-
     [Header("Music")]
     public AudioSource musicSource;
     public AudioClip overworldMusic;
@@ -18,6 +15,9 @@ public class AudioManager : MonoBehaviour
     [Header("Settings")]
     public float musicVolume = 0.7f;
     public float fadeDuration = 1f;
+
+
+    private float savedOverworldTime = 0f;
 
     void Awake()
     {
@@ -37,10 +37,22 @@ public class AudioManager : MonoBehaviour
         PlayOverworldMusic();
     }
 
-    public void PlayOverworldMusic() => PlayMusicWithFade(overworldMusic, true);
-    public void PlayBattleMusic() => PlayMusicWithFade(battleMusic, true);
-    public void PlayBossMusic() => PlayMusicWithFade(bossMusic, true);
+    public void PlayOverworldMusic()
+    {
+        if (overworldMusic == null) return;
+        if (musicSource.clip == overworldMusic && musicSource.isPlaying) return;
+        StopAllCoroutines();
+        StartCoroutine(FadeToClipFromTime(overworldMusic, true, savedOverworldTime));
+    } 
+    public void PlayBattleMusic()
+    {
+        if(musicSource.clip == overworldMusic)
+            savedOverworldTime = musicSource.time;
 
+        PlayMusicWithFade(battleMusic, true);
+    }
+
+    public void PlayBossMusic() => PlayMusicWithFade(bossMusic, true);
     public void PlayVictoryJingle()
     {
        PlayMusicWithFade(victoryJingle, false);
@@ -88,6 +100,38 @@ public class AudioManager : MonoBehaviour
         musicSource.volume = musicVolume;
     }
 
+    IEnumerator FadeToClipFromTime(AudioClip clip, bool loop, float startTime)
+    {
+        if (musicSource.isPlaying)
+        {
+            float startVolume = musicSource.volume;
+            float elapsed = 0f;
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                musicSource.volume = Mathf.Lerp(startVolume,0f,elapsed / fadeDuration);
+                yield return null;
+            }
+        }
+
+        musicSource.Stop();
+        musicSource.clip = clip;
+        musicSource.loop = loop;
+        musicSource.volume = 0f;
+        musicSource.time = startTime;
+        musicSource.Play();
+
+        float fadeElapsed = 0f;
+        while (fadeElapsed < fadeDuration)
+        {
+            fadeElapsed += Time.unscaledDeltaTime;
+            musicSource.volume = Mathf.Lerp(0f,musicVolume,fadeElapsed / fadeDuration);
+            yield return null;
+        }
+
+        musicSource.volume = musicVolume;
+    }
+
     public void StopMusic()
     {
         StopAllCoroutines();
@@ -107,15 +151,15 @@ public class AudioManager : MonoBehaviour
         musicSource.Stop();
         musicSource.clip = null;
     }
-    void PlayMusic(AudioClip clip)
-    {
-        Debug.Log($"PlayMusic called, clip:  {clip} ");
-        if (clip == null) return;
-        if (musicSource.clip == clip && musicSource.isPlaying) return; // already playing
+    // void PlayMusic(AudioClip clip)
+    // {
+    //     Debug.Log($"PlayMusic called, clip:  {clip} ");
+    //     if (clip == null) return;
+    //     if (musicSource.clip == clip && musicSource.isPlaying) return; // already playing
 
-        musicSource.loop = true;
-        musicSource.clip = clip;
-        musicSource.volume = musicVolume;
-        musicSource.Play();
-    }
+    //     musicSource.loop = true;
+    //     musicSource.clip = clip;
+    //     musicSource.volume = musicVolume;
+    //     musicSource.Play();
+    // }
 }

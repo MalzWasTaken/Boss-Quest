@@ -126,9 +126,12 @@ public class BattleManager : MonoBehaviour
 
     //execution phase
 
+    
+
     void StartExecutionPhase()
     {
-        Debug.Log($"Execution phase started with {plannedActions.Count} actions");
+        battleMenuUI.ClearStatusText();
+        // Debug.Log($"Execution phase started with {plannedActions.Count} actions");
         foreach (var enemy in enemies)
         {
             if (enemy.IsAlive)
@@ -161,6 +164,9 @@ public class BattleManager : MonoBehaviour
         {
             if (!plan.user.IsAlive) continue;
 
+            CombatantAnimator anim = plan.user.GetComponent<CombatantAnimator>();
+            anim?.ResetTriggers();
+            anim?.SetWalking(false);
             plan.targets.RemoveAll(t => !t.IsAlive);
             if (plan.targets.Count == 0)
             {
@@ -197,14 +203,7 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log($"{plan.user.combatantName} doesn't have enough MP!");
             }
-
-
-
-            
-            
-
-
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.8f);
 
             if (CheckBattleOver()) yield break;
         }

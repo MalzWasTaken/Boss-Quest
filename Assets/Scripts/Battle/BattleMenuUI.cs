@@ -109,27 +109,27 @@ public class BattleMenuUI : MonoBehaviour
     }
 
     public void OnRunPressed()
-{
-    if (Random.value > 0.5f)
     {
-        Debug.Log("Successfully fled the battle!");
         SetState(MenuState.Inactive);
-        StartCoroutine(RunSuccess());
-        // load overworld scene etc
+
+        if (Random.value > 0.5f)
+        {
+            BattleLogUI.Instance?.AddMessage("Successfully fled the battle!");
+            StartCoroutine(RunSuccess());
+            // load overworld scene etc
+        }
+        else
+        {
+            BattleLogUI.Instance?.AddMessage("Couldn't escape!");
+            StartCoroutine(RunFailed());
+        }
     }
-    else
-    {
-        Debug.Log("Couldn't escape!");
-        SetState(MenuState.Inactive);
-        BattleManager.Instance.OnActionConfirmed(null, null);
-    }
-}
 
     IEnumerator RunSuccess()
     {
         yield return new WaitForSeconds(1.5f);
         AudioManager.Instance?.PlayOverworldMusic();
-        BattleData.enemiesToSpawn.Clear();
+        
 
         BattleData.heroStats.Clear();
         foreach (var hero in BattleManager.Instance.heroes)
@@ -147,7 +147,19 @@ public class BattleMenuUI : MonoBehaviour
                 expToNextLevel = hero.expToNextLevel 
             });
         }
+        BattleData.enemiesToSpawn.Clear();
         UnityEngine.SceneManagement.SceneManager.LoadScene(BattleData.returnScene);
+    }
+
+    IEnumerator RunFailed()
+    {
+        yield return new WaitForSeconds(1.2f);
+        BattleManager.Instance.OnActionConfirmed(null,null);
+    }
+
+    public void ClearStatusText()
+    {
+        if (statusText != null) statusText.text = "";
     }
 
     //abilty and item submenus

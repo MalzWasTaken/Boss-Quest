@@ -491,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 120899672}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.66, y: 0.5, z: 3.38}
+  m_LocalPosition: {x: -2.66, y: 0.5, z: 1.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -624,29 +624,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e9e73c2ebae5b42a0585ebc761aaf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseHero
-  combatantName: Malzino
-  currHP: 100
-  maxHP: 100
-  currMP: 10
-  maxMP: 10
-  currATK: 10
-  baseATK: 10
-  currDEF: 5
-  baseDEF: 5
-  currAGI: 8
-  baseAGI: 8
+  combatantName: 
+  currHP: 0
+  maxHP: 0
+  currMP: 0
+  maxMP: 0
+  currATK: 0
+  baseATK: 0
+  currDEF: 0
+  baseDEF: 0
+  currAGI: 0
+  baseAGI: 0
   actions:
   - {fileID: 11400000, guid: f3e03b63a8581094d9733b1c67bfd5f9, type: 2}
+  - {fileID: 11400000, guid: 3fb5d0e958783db448eadfdf2bac67fb, type: 2}
   isDefending: 0
   stamina: 0
   intellect: 0
   dexterity: 0
-  abilities:
-  - {fileID: 11400000, guid: 9a3045e650c6c6247bea5f203fbc18bf, type: 2}
+  abilities: []
   experience: 0
   gold: 0
   level: 1
-  expToNextLevel: 100
+  expToNextLevel: 2
 --- !u!114 &138398122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3513,29 +3513,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e9e73c2ebae5b42a0585ebc761aaf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseHero
-  combatantName: SlimeKiller
-  currHP: 100
-  maxHP: 100
-  currMP: 30
-  maxMP: 30
-  currATK: 10
-  baseATK: 10
-  currDEF: 4
-  baseDEF: 4
-  currAGI: 9
-  baseAGI: 9
+  combatantName: 
+  currHP: 0
+  maxHP: 0
+  currMP: 0
+  maxMP: 0
+  currATK: 0
+  baseATK: 0
+  currDEF: 0
+  baseDEF: 0
+  currAGI: 0
+  baseAGI: 0
   actions:
   - {fileID: 11400000, guid: f3e03b63a8581094d9733b1c67bfd5f9, type: 2}
+  - {fileID: 11400000, guid: 3fb5d0e958783db448eadfdf2bac67fb, type: 2}
   isDefending: 0
   stamina: 0
   intellect: 0
   dexterity: 0
-  abilities:
-  - {fileID: 11400000, guid: d4bc451fc0152c046a25b7011fa33e61, type: 2}
+  abilities: []
   experience: 0
   gold: 0
   level: 1
-  expToNextLevel: 100
+  expToNextLevel: 2
 --- !u!114 &633696060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4097,7 +4097,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5740,7 +5740,7 @@ Transform:
   m_GameObject: {fileID: 1151125807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.66, y: 0.5, z: 0.07}
+  m_LocalPosition: {x: -2.66, y: 0.5, z: -2.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7348,7 +7348,7 @@ Transform:
   m_GameObject: {fileID: 1686183930}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.66, y: 0.5, z: -3.26}
+  m_LocalPosition: {x: -2.66, y: 0.5, z: -0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9006,7 +9006,10 @@ MonoBehaviour:
   - {fileID: 1686183931}
   - {fileID: 120899673}
   defaultEnemies:
-  - {fileID: 11400000, guid: 451d4fc5fa031a84b84599b2213e8902, type: 2}
+  - {fileID: 11400000, guid: 1e8c0b96037118f47b222ea0e8406a79, type: 2}
+  heroDefinitions:
+  - {fileID: 11400000, guid: 421b6e8bd46948e4f8008c418132c5fd, type: 2}
+  - {fileID: 11400000, guid: 1243aa237afdb1f44a21bb9f83952b2e, type: 2}
 --- !u!1 &2074471820
 GameObject:
   m_ObjectHideFlags: 0

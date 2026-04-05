@@ -12,6 +12,7 @@ public class CombatantAnimator : MonoBehaviour
     public string hitTrigger = "Hit";
     public string deathTrigger = "Death";
     public string walkBool = "isWalking";
+    public string walkBackBool = "isWalkingBack";
 
     void Start()
     {
@@ -28,10 +29,15 @@ public class CombatantAnimator : MonoBehaviour
         // Rotate to face target
         Vector3 lookDir = target.position - transform.position;
         lookDir.y = 0f;
+
+        HeroAnimator heroAnim = GetComponent<HeroAnimator>();
+
         if (lookDir != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(lookDir);
-            Quaternion offset = Quaternion.Euler(0,-90f,0);
+            Quaternion offset = heroAnim != null 
+            ? heroAnim.GetRotationOffset()
+            : Quaternion.Euler(0,-90f,0);
             transform.rotation = lookRotation * offset;
         }
 
@@ -56,10 +62,26 @@ public class CombatantAnimator : MonoBehaviour
         }
 
         SetWalking(false);
-        animator?.SetTrigger(attackTrigger);
-        yield return new WaitForSeconds(0.6f);
+        if (heroAnim != null)
+        {
+            heroAnim.PlayAttack();
+        }
+        else
+        {
+            animator?.SetTrigger(attackTrigger);
+        }
+        
+        yield return new WaitForSeconds(0.75f);
 
-        SetWalking(true);
+        if (heroAnim != null)
+        {
+            SetWalkingBackwards(true);
+        }
+        else
+        {
+            SetWalking(true);  
+        }
+        
         elapsed = 0f;
         while (elapsed < duration)
         {
@@ -69,10 +91,12 @@ public class CombatantAnimator : MonoBehaviour
             transform.position = pos;
             yield return null;
         }
-
         SetWalking(false);
+        SetWalkingBackwards(false);
         transform.position = startPosition;
         transform.rotation = startRotation;
+        GetComponent<HeroAnimator>()?.ResetAnimator();
+        ResetTriggers();
     }
 
     public void ResetTriggers()
@@ -95,6 +119,11 @@ public class CombatantAnimator : MonoBehaviour
     public void SetWalking(bool value)
     {
         animator?.SetBool(walkBool, value);
+    }
+
+    public void SetWalkingBackwards(bool value)
+    {
+        animator?.SetBool(walkBackBool, value);
     }
 }
 

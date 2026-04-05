@@ -60,16 +60,12 @@ public class BattleSpawner : MonoBehaviour
 
     void SpawnEnemies(List<EnemyDefinition> definitions)
     {
+        List<int> spawnIndices = GetSpawnIndices(definitions.Count);
+        
         for (int i = 0; i < definitions.Count; i++)
         {
-            if (i >= enemySpawnPoints.Count)
-            {
-                Debug.LogWarning("Not enough spawn points!");
-                break;
-            }
-
             EnemyDefinition def = definitions[i];
-
+            int spawnIndex = spawnIndices[i];
             if (def.enemyPrefab == null)
             {
                 Debug.LogWarning($"No prefab assigned for {def.enemyName}!");
@@ -78,8 +74,8 @@ public class BattleSpawner : MonoBehaviour
 
             // Spawn the enemy prefab
             GameObject enemyObj = Instantiate(def.enemyPrefab, 
-                enemySpawnPoints[i].position, 
-                enemySpawnPoints[i].rotation);
+                enemySpawnPoints[spawnIndex].position, 
+                enemySpawnPoints[spawnIndex].rotation);
 
             // Apply stats from definition
             BaseEnemy enemy = enemyObj.GetComponent<BaseEnemy>();
@@ -113,6 +109,21 @@ public class BattleSpawner : MonoBehaviour
                 }
                
             }
+        }
+    }
+
+    List<int> GetSpawnIndices(int enemyCount)
+    {
+        switch (enemyCount)
+        {
+            case 1:
+                return new List<int> {1}; //middle spawn point
+            case 2:
+                return new List<int> {0,2}; //left and right spawns
+            case 3:
+                return new List<int> {0,1,2}; // all 3 points
+            default:
+                return new List<int> {1};
         }
     }
 }

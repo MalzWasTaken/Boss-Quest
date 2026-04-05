@@ -64,13 +64,14 @@ public class BattleCameraController : MonoBehaviour
         Transform enemy = attacker is BaseEnemy ? attacker.transform : target.transform;
 
         Vector3 directionToEnemy = (enemy.position - hero.position).normalized;
-
+        Vector3 sideOffset = Vector3.Cross(directionToEnemy, Vector3.up) * focusOffsetSide;
         Vector3 camPos;
 
         
             camPos = hero.position
                 - directionToEnemy * focusDistance
-                + Vector3.up * focusHeight;
+                + Vector3.up * focusHeight
+                + sideOffset;
       
 
         transform.position = camPos;
@@ -97,8 +98,8 @@ public class BattleCameraController : MonoBehaviour
 
         // Hero side but pushed closer toward the enemy
         Vector3 camPos = enemy.transform.position
-            - directionToEnemy * (focusDistance * 0.7f)  // closer than normal
-            + Vector3.up * focusHeight;
+            - directionToEnemy * (8 * 0.7f)  // closer than normal
+            + Vector3.up * 3;
 
         transform.position = camPos;
         transform.LookAt(enemy.transform.position + Vector3.up * -0.5f);

@@ -21,8 +21,10 @@ public class BaseHero : Combatant
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
+        GetComponent<HeroAnimator>()?.PlayHit();
         if (!IsAlive)
         {
+            GetComponent<HeroAnimator>()?.PlayDeath();
             Debug.Log($"{combatantName} died!");
             //battle log message
             BattleLogUI.Instance?.AddMessage($"{combatantName} died!");

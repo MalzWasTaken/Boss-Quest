@@ -17,6 +17,9 @@ public class BattleManager : MonoBehaviour
     private List<PlannedAction> plannedActions = new List<PlannedAction>();
     private int currentHeroIndex = 0;
 
+    private Animator animator;
+
+
     void Awake()
     {
         Instance = this;
@@ -85,11 +88,20 @@ public class BattleManager : MonoBehaviour
         foreach (var hero in heroes) hero.isDefending = false;
         foreach (var enemy in enemies) enemy.isDefending = false;
 
+        foreach (var hero in heroes)
+        {
+            hero.isDefending = false;
+            hero.GetComponent<HeroAnimator>()?.StopBlocking();
+            hero.GetComponent<HeroAnimator>()?.StartIdling();
+        }
+
         plannedActions.Clear();
         currentHeroIndex = 0;
         Debug.Log("Planning phase started");
         PromptNextHero();
     }
+
+    
 
     void PromptNextHero()
     {
@@ -113,6 +125,12 @@ public class BattleManager : MonoBehaviour
         Debug.Log($"Action confirmed for hero index {currentHeroIndex}");
         if (action != null)
         {
+            if(action is DefendAction)
+            {
+                heroes[currentHeroIndex].isDefending = true;
+                heroes[currentHeroIndex].GetComponent<HeroAnimator>()?.StopIdling();
+                heroes[currentHeroIndex].GetComponent<HeroAnimator>()?.StartBlocking();
+            }
 
             plannedActions.Add(new PlannedAction
             {
@@ -134,6 +152,11 @@ public class BattleManager : MonoBehaviour
     {
         battleMenuUI.ClearStatusText();
         // Debug.Log($"Execution phase started with {plannedActions.Count} actions");
+        foreach (var hero  in heroes)
+        {
+            hero.GetComponent<HeroAnimator>()?.StopIdling();
+            hero.GetComponent<HeroAnimator>()?.PlayDefaultIdle();
+        }
         foreach (var enemy in enemies)
         {
             if (enemy.IsAlive)
@@ -166,51 +189,88 @@ public class BattleManager : MonoBehaviour
         {
             if (!plan.user.IsAlive) continue;
 
-            CombatantAnimator anim = plan.user.GetComponent<CombatantAnimator>();
-            anim?.ResetTriggers();
-            anim?.SetWalking(false);
+            // Reset animator state
+            CombatantAnimator combatantAnim = plan.user.GetComponent<CombatantAnimator>();
+            HeroAnimator heroAnim = plan.user.GetComponent<HeroAnimator>();
+            combatantAnim?.ResetTriggers();
+            combatantAnim?.SetWalking(false);
+
+            // Redirect to living target if original died
             plan.targets.RemoveAll(t => !t.IsAlive);
             if (plan.targets.Count == 0)
             {
-                //finding replacement target if target has died
                 List<Combatant> livingTargets = plan.user is BaseHero
                     ? GetLivingEnemies().Cast<Combatant>().ToList()
                     : GetLivingHeroes().Cast<Combatant>().ToList();
 
                 if (livingTargets.Count == 0) continue;
-
                 plan.targets.Add(livingTargets[Random.Range(0, livingTargets.Count)]);
             }
-            //focusing camera on attacker
-            if (plan.action is HealAction)
-                BattleCameraController.Instance?.FocusOnHeal(plan.targets[0]);
-            else
-                BattleCameraController.Instance?.FocusOn(plan.user, plan.targets[0] as Combatant);
 
-            //attack animations
-            CombatantAnimator animator = plan.user.GetComponent<CombatantAnimator>();
-            if (animator != null && plan.targets.Count > 0 && plan.action.isAttack)
-                yield return animator.PlayAttackAnimation(plan.targets[0].transform);
+            // Camera and animation
+            yield return StartCoroutine(HandleActionAnimation(plan, combatantAnim, heroAnim));
 
-            Debug.Log($"{plan.user.combatantName} used {plan.action.actionName}!");
-            //battle log message
+            // Log and execute
             BattleLogUI.Instance?.AddMessage($"{plan.user.combatantName} used {plan.action.actionName}!");
+
             if (plan.user.currMP >= plan.action.mpCost)
             {
                 plan.user.currMP -= plan.action.mpCost;
                 plan.action.Execute(plan.user, plan.targets);
-
             }
             else
             {
-                Debug.Log($"{plan.user.combatantName} doesn't have enough MP!");
+                BattleLogUI.Instance?.AddMessage($"{plan.user.combatantName} doesn't have enough MP!");
             }
-            yield return new WaitForSeconds(1.8f);
 
+            yield return new WaitForSeconds(1.8f);
             if (CheckBattleOver()) yield break;
         }
 
         StartPlanningPhase();
+    }
+
+    IEnumerator HandleActionAnimation(PlannedAction plan, CombatantAnimator combatantAnim, HeroAnimator heroAnim)
+    {
+        Combatant target = plan.targets.Count > 0 ? plan.targets[0] : null;
+
+        if (plan.action.targetsAllies)
+        {
+            // Heal / support ability
+            heroAnim?.PlayCast();
+            if (target != null)
+                BattleCameraController.Instance?.FocusOnHeal(target);
+            yield break;
+        }
+
+        if (plan.action.isAttack && combatantAnim != null && target != null)
+        {
+            // Physical attack - lunge animation
+            BattleCameraController.Instance?.FocusOn(plan.user, target);
+            yield return combatantAnim.PlayAttackAnimation(target.transform);
+            yield break;
+        }
+
+        if (plan.action.isAbility && heroAnim != null)
+        {
+            // Offensive ability - cast animation
+            heroAnim.PlayCast();
+            BattleCameraController.Instance?.FocusOn(plan.user, target);
+            yield return new WaitForSeconds(0.8f);
+            yield break;
+        }
+
+        if(plan.action is DefendAction)
+        {
+            heroAnim?.StopIdling();
+            heroAnim?.StartBlocking();
+            BattleCameraController.Instance?.StartOrbiting();
+            yield break;
+        }
+
+        // Fallback - just focus camera
+        if (target != null)
+            BattleCameraController.Instance?.FocusOn(plan.user, target);
     }
 
     bool CheckBattleOver()

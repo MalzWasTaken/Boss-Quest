@@ -9,6 +9,7 @@ public abstract class BattleAction : ScriptableObject
     public bool targetsAllies = false;
 
     public bool isAttack;
+    public bool isAbility;
 
     public abstract void Execute(Combatant user, List<Combatant> targets);
 }

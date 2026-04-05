@@ -105,6 +105,7 @@ public class BattleMenuUI : MonoBehaviour
     public void OnDefendPressed()
     {
         SetState(MenuState.Inactive);
+        
         BattleManager.Instance.OnActionConfirmed(defendAction, null);
     }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class OverworldEnemy : MonoBehaviour
 {
@@ -18,9 +19,14 @@ public class OverworldEnemy : MonoBehaviour
     private Vector3 wanderTarget;
     private bool battleTriggered = false;
 
+    private Animator animator;
+    public string roamBool = "isRoaming";
+    public string chaseBool = "isChasing";
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
         SetNewWanderTarget();
 
         if (BattleData.defeatedEnemyIDs.Contains(gameObject.name))
@@ -34,12 +40,16 @@ public class OverworldEnemy : MonoBehaviour
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance < detectionRange)
-        {
+        {      
+            SetChasing(true);
+            SetWalking(false);
             agent.speed = chaseSpeed;
             agent.SetDestination(player.position);
         }
         else
         {
+            SetChasing(false);
+            SetWalking(true);
             agent.speed = wanderSpeed;
             if (agent.remainingDistance < 1f)
                 SetNewWanderTarget();
@@ -87,4 +97,7 @@ public class OverworldEnemy : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("BattleScene");
         });
     }
+
+    public void SetWalking(bool value) => animator?.SetBool(roamBool, value);
+    public void SetChasing(bool value) => animator?.SetBool(chaseBool, value);
 }

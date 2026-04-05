@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
             rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
 
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            transform.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
 

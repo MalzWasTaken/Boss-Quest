@@ -14,9 +14,16 @@ public class CameraFollow : MonoBehaviour
 
     private float currentYaw = 0f;
     private float targetYaw = 0f;
+    private Rigidbody targetRb;
 
 
-    void LateUpdate()
+    void Start()
+    {
+        if (target != null)
+            targetRb = target.GetComponent<Rigidbody>();
+    }
+
+    void FixedUpdate()
     {
         if (target == null) return;
 
@@ -31,10 +38,11 @@ public class CameraFollow : MonoBehaviour
         else
         {
             //player moving check
-            Rigidbody rb = target.GetComponent<Rigidbody>();
-            bool playerMoving = rb != null && rb.linearVelocity.magnitude > 0.1f;
+            bool playerMoving = targetRb != null && targetRb.linearVelocity.magnitude > 0.1f;
+            bool isStrafing = Keyboard.current.aKey.isPressed || Keyboard.current.dKey.isPressed;
+            bool isForwardBack = Keyboard.current.wKey.isPressed || Keyboard.current.sKey.isPressed;
 
-            if (playerMoving)
+            if (playerMoving && isForwardBack && !isStrafing)
             {
                 
                 //smooth snap back to facing direction

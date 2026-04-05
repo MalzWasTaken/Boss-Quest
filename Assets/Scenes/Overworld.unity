@@ -8850,6 +8850,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1920250588 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4306373389120762338, guid: b318fe1471da3224f9172e09f1837bbd, type: 3}
+  m_PrefabInstance: {fileID: 7553449541227077648}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1920250590
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920250588}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: d64bd4437cc2bab47a340633d13511a2, type: 3}
+  m_Controller: {fileID: 9100000, guid: 09c8080e3ce55d04c882698904e07365, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1922174072
 GameObject:
   m_ObjectHideFlags: 0
@@ -9785,9 +9812,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 564136820332064579, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 564136820332064579, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 564136820332064579, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 564136820332064579, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4060238127676087087, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
       propertyPath: runBool
       value: IsRunning
+      objectReference: {fileID: 0}
+    - target: {fileID: 4060238127676087087, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: moveSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4060238127676087087, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
       propertyPath: mainCamera
@@ -9800,6 +9847,14 @@ PrefabInstance:
     - target: {fileID: 4060238127676087087, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521503204838282775, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5521503204838282775, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Interpolate
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5894093776522391359, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
       propertyPath: m_Name
@@ -9864,7 +9919,20 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8701180338081613974, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Height
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8701180338081613974, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8701180338081613974, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
+      propertyPath: m_Center.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 564136820332064579, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6523419680966014341, guid: 1f155e6f12a5cd547bb160c22d774c5a, type: 3}
@@ -9880,6 +9948,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5607432133158835856, guid: 7ceb90c697154f34cb32bb6504e7ca00, type: 3}
+      propertyPath: m_Speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6760823063121055780, guid: 7ceb90c697154f34cb32bb6504e7ca00, type: 3}
       propertyPath: m_LocalPosition.x
       value: 104.5
@@ -9949,6 +10021,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 242284589}
+    - target: {fileID: 2103539688385864052, guid: b318fe1471da3224f9172e09f1837bbd, type: 3}
+      propertyPath: m_Speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4854973309475492885, guid: b318fe1471da3224f9172e09f1837bbd, type: 3}
       propertyPath: m_Name
       value: OverworldEnemy_Goblin
@@ -9996,7 +10072,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4306373389120762338, guid: b318fe1471da3224f9172e09f1837bbd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1920250590}
   m_SourcePrefab: {fileID: 100100000, guid: b318fe1471da3224f9172e09f1837bbd, type: 3}
 --- !u!1001 &8842168026596742824
 PrefabInstance:
@@ -10054,6 +10133,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 242284589}
+    - target: {fileID: 8653174158253757249, guid: 16ed7da0de377ed4cb596a7500070f84, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

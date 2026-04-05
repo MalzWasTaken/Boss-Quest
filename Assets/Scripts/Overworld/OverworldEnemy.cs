@@ -45,6 +45,7 @@ public class OverworldEnemy : MonoBehaviour
             SetWalking(false);
             agent.speed = chaseSpeed;
             agent.SetDestination(player.position);
+            agent.updateRotation = true;
         }
         else
         {

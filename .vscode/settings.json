@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Dragon Quest.slnx",
+    "dotnet.defaultSolution": "Boss-Quest.slnx",
     "git.ignoreLimitWarning": true
 }

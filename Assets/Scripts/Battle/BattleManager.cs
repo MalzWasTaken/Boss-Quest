@@ -23,9 +23,11 @@ public class BattleManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-   void Start()
+    void Start()
     {
         StartCoroutine(BattleIntro());
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     IEnumerator BattleIntro()
@@ -126,7 +128,7 @@ public class BattleManager : MonoBehaviour
 
     //execution phase
 
-    
+
 
     void StartExecutionPhase()
     {
@@ -182,7 +184,7 @@ public class BattleManager : MonoBehaviour
             //focusing camera on attacker
             if (plan.action is HealAction)
                 BattleCameraController.Instance?.FocusOnHeal(plan.targets[0]);
-                else
+            else
                 BattleCameraController.Instance?.FocusOn(plan.user, plan.targets[0] as Combatant);
 
             //attack animations
@@ -223,7 +225,7 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("Victory!");
             List<BaseEnemy> defeatedEnemies = new List<BaseEnemy>(enemies);
-            RewardManager.Instance?.GiveRewards(heroes,enemies);
+            RewardManager.Instance?.GiveRewards(heroes, enemies);
             return true;
         }
         return false;
@@ -240,7 +242,7 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         AudioManager.Instance?.PlayOverworldMusic();
         BattleData.heroStats.Clear();
-        foreach(var hero in heroes)
+        foreach (var hero in heroes)
         {
             BattleData.heroStats.Add(new HeroData
             {

@@ -29,6 +29,16 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        if (isPaused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (settingsPanel.activeSelf)

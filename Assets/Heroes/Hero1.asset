@@ -15,9 +15,13 @@ MonoBehaviour:
   heroName: Malzino
   maxHP: 100
   maxMP: 60
-  baseATK: 10
-  baseDEF: 7
-  baseAGI: 15
-  expToNextLevel: 2
-  abilities:
-  - {fileID: 11400000, guid: 9a3045e650c6c6247bea5f203fbc18bf, type: 2}
+  baseATK: 13
+  baseDEF: 8
+  baseAGI: 30
+  expToNextLevel: 30
+  abilities: []
+  learnableAbilities:
+  - ability: {fileID: 11400000, guid: 9a3045e650c6c6247bea5f203fbc18bf, type: 2}
+    levelRequired: 1
+  - ability: {fileID: 11400000, guid: d4bc451fc0152c046a25b7011fa33e61, type: 2}
+    levelRequired: 2

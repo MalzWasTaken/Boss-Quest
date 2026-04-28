@@ -80,6 +80,9 @@ public class OverworldEnemy : MonoBehaviour
         battleTriggered = true;
         Time.timeScale = 0f;
 
+        // Clear previously defeated enemies
+        BattleData.defeatedEnemyIDs.Clear();
+
         // Pick a random formation
         BattleFormation formation = possibleFormations[Random.Range(0, possibleFormations.Count)];
 
@@ -89,7 +92,9 @@ public class OverworldEnemy : MonoBehaviour
 
         BattleData.returnScene = "Overworld";
         BattleData.triggeredEnemyID = gameObject.name;
+        BattleData.isFinalBoss = formation.isFinalBoss;
         BattleData.playerReturnPosition = player.position;
+        Debug.Log($"[OverworldEnemy] Set playerReturnPosition to {player.position}, player ref = {player.name}");
 
         AudioManager.Instance?.PlayBattleMusic();
         WarpEffect.Instance.TriggerWarp(() =>

@@ -15,10 +15,13 @@ MonoBehaviour:
   heroName: SlimeKiller
   maxHP: 100
   maxMP: 60
-  baseATK: 10
-  baseDEF: 7
+  baseATK: 15
+  baseDEF: 10
   baseAGI: 20
-  expToNextLevel: 4
-  abilities:
-  - {fileID: 11400000, guid: d4bc451fc0152c046a25b7011fa33e61, type: 2}
-  - {fileID: 11400000, guid: 7baa98f06e9355c4f9ce296aef9bdcb1, type: 2}
+  expToNextLevel: 30
+  abilities: []
+  learnableAbilities:
+  - ability: {fileID: 11400000, guid: d4bc451fc0152c046a25b7011fa33e61, type: 2}
+    levelRequired: 1
+  - ability: {fileID: 11400000, guid: 7baa98f06e9355c4f9ce296aef9bdcb1, type: 2}
+    levelRequired: 2

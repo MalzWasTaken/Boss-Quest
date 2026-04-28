@@ -57,13 +57,13 @@ public class PlayerController : MonoBehaviour
                                 Keyboard.current.sKey.isPressed ||
                                 Keyboard.current.wKey.isPressed;
 
-        if (!isGrounded)
-        {
-            SetJumping(true);
-        }
-        else
-        {
-            SetJumping(false);
+        // if (!isGrounded)
+        // {
+        //     SetJumping(true);
+        // }
+        // else
+        // {
+        //     SetJumping(false);
 
             if (isAnyWASDPressed && Keyboard.current.leftShiftKey.isPressed)
             {
@@ -81,15 +81,15 @@ public class PlayerController : MonoBehaviour
                 SetWalking(false);
             }
         
-        }
+        // }
            
         // Jump
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            SetJumping(true);
-            isGrounded = false;
-        }
+        // if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
+        // {
+        //     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        //     SetJumping(true);
+        //     isGrounded = false;
+        // }
     }
 
     void FixedUpdate()

@@ -9,6 +9,7 @@ public static class BattleData
     public static Vector3 playerReturnPosition;
     public static List<HeroData> heroStats = new List<HeroData>();
     public static List<string> defeatedEnemyIDs = new List<string>();
+    public static bool isFinalBoss = false;
 }
 
 public class HeroData

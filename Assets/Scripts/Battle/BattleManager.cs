@@ -284,8 +284,22 @@ public class BattleManager : MonoBehaviour
         if (enemies.All(e => !e.IsAlive))
         {
             Debug.Log("Victory!");
-            List<BaseEnemy> defeatedEnemies = new List<BaseEnemy>(enemies);
-            RewardManager.Instance?.GiveRewards(heroes, enemies);
+            if (!string.IsNullOrEmpty(BattleData.triggeredEnemyID)
+                &&  !BattleData.defeatedEnemyIDs.Contains(BattleData.triggeredEnemyID))
+            {
+                BattleData.defeatedEnemyIDs.Add(BattleData.triggeredEnemyID);
+                Debug.Log($"[BattleManager] Marked '{BattleData.triggeredEnemyID}' as defeated");
+            }
+
+
+            if (BattleData.isFinalBoss)
+            {
+                RewardManager.Instance?.GiveRewardsGameClear(heroes, enemies);
+            }
+            else
+            {
+                RewardManager.Instance?.GiveRewards(heroes, enemies);
+            }
             return true;
         }
         return false;

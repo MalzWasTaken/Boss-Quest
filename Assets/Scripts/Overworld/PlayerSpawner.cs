@@ -6,8 +6,11 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject player;
     public List <HeroDefinition> heroDefinitions;
 
+    private bool positionApplied = false;
+
     void Start()
     {
+        Debug.Log($"PlayerSpawner: returnPosition = {BattleData.playerReturnPosition}");
         
         if(BattleData.heroStats.Count == 0)
         {
@@ -25,12 +28,18 @@ public class PlayerSpawner : MonoBehaviour
                 });
             }
         }
-        
+    }    
 
+    void LateUpdate()
+    {
+        if (positionApplied) return;
         if (BattleData.playerReturnPosition != Vector3.zero)
         {
             player.transform.position = BattleData.playerReturnPosition;
+            Debug.Log($"[PlayerSpawner] Set hero position to {player.transform.position}");
         }
 
+        positionApplied = true;
     }
 }
+       

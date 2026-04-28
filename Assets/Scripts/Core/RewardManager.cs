@@ -50,6 +50,36 @@ public class RewardManager : MonoBehaviour {
         StartCoroutine(ShowVictoryAfterDelay(expPerHero,totalGold,levelUps));
     }
 
+    public void GiveRewardsGameClear(List<BaseHero> heroes, List<BaseEnemy> defeatedEnemies)
+    {
+        int totalExp = 0;
+        int totalGold = 0;
+
+        foreach (var enemy in defeatedEnemies)
+        {
+            totalExp += enemy.expReward;
+            totalGold += enemy.goldReward;
+        }
+
+        int expPerHero = totalExp / Mathf.Max(1, heroes.Count);
+        BaseHero partyLeader = heroes.Find(h => h.IsAlive);
+        if (partyLeader != null) partyLeader.gold += totalGold;
+
+        foreach (var hero in heroes)
+        {
+            if (!hero.IsAlive) continue;
+            hero.experience += expPerHero;
+        }
+
+        StartCoroutine(ShowGameClearAfterDelay());
+    }
+
+    IEnumerator ShowGameClearAfterDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameClearUI.Instance?.ShowGameClear();
+    }
+
     IEnumerator ShowVictoryAfterDelay(int exp, int gold, List<string> levelUps)
     {
         yield return new WaitForSeconds(0.2f);
@@ -70,8 +100,8 @@ public class RewardManager : MonoBehaviour {
         hero.currATK += 2;
         hero.baseDEF += 1;
         hero.currDEF += 1;
-        hero.baseAGI += 1;
-        hero.currAGI += 1;
+        hero.baseAGI += 5;
+        hero.currAGI += 5;
 
         levelUps.Add($"{hero.combatantName} reached level {hero.level}!");
         Debug.Log($"{hero.combatantName} levelled up to level {hero.level}!");

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BattleSpawner : MonoBehaviour
 {
@@ -38,7 +39,10 @@ public class BattleSpawner : MonoBehaviour
                 hero.currDEF = def.baseDEF;
                 hero.baseAGI = def.baseAGI;
                 hero.currAGI = def.baseAGI;
-                hero.abilities = def.abilities;
+                hero.abilities = def.learnableAbilities
+                .Where(a => a.levelRequired <= hero.level)
+                .Select(a => a.ability)
+                .ToList();
             }
 
             // Then override with saved stats if they exist

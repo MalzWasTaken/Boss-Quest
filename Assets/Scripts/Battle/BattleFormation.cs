@@ -6,4 +6,5 @@ public class BattleFormation : ScriptableObject
 {
     public string formationName;
     public List<EnemyDefinition> enemies;
+    public bool isFinalBoss = false;
 }

@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3609f07e7f834fc4d9d97f9470435a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatantAnimator
-  attackDistance: 1.5
+  attackDistance: 2
   attackTrigger: Attack
   hitTrigger: Hit
   deathTrigger: Death

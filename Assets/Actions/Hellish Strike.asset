@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2535eb143f39e424886a2c790ab35c06, type: 3}
+  m_Name: Hellish Strike
+  m_EditorClassIdentifier: Assembly-CSharp::HellishStrike
+  actionName: Hellish Strike
+  mpCost: 0
+  targetsAllies: 0
+  isAttack: 0
+  isAbility: 1
+  baseDamage: 35
+  accuracy: 0.9
+  damageVariance: 0.2
+  criticalChance: 0.1
+  criticalMultiplier: 1.75

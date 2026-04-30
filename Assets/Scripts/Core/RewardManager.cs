@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class RewardManager : MonoBehaviour {
     public static RewardManager Instance;
@@ -92,7 +93,6 @@ public class RewardManager : MonoBehaviour {
         hero.level++;
         hero.expToNextLevel = Mathf.RoundToInt(hero.expToNextLevel * 1.5f);
 
-        //level up stat increases
         hero.maxHP += 10;
         hero.currHP += 10;
         hero.maxMP += 3;
@@ -102,6 +102,27 @@ public class RewardManager : MonoBehaviour {
         hero.currDEF += 1;
         hero.baseAGI += 5;
         hero.currAGI += 5;
+
+        // Refresh abilities based on new level
+        HeroDefinition def = BattleSpawner.Instance?.GetDefinitionForHero(hero);
+        if (def != null)
+        {
+            var previousAbilities = new HashSet<BattleAction>(hero.abilities ?? new List<BattleAction>());
+
+            hero.abilities = def.learnableAbilities
+                .Where(a => a.levelRequired <= hero.level)
+                .Select(a => a.ability)
+                .ToList();
+
+            foreach (var ability in hero.abilities)
+            {
+                if (!previousAbilities.Contains(ability))
+                {
+                    levelUps.Add($"{hero.combatantName} learned {ability.actionName}!");
+                    Debug.Log($"{hero.combatantName} learned {ability.actionName}!");
+                }
+            }
+        }
 
         levelUps.Add($"{hero.combatantName} reached level {hero.level}!");
         Debug.Log($"{hero.combatantName} levelled up to level {hero.level}!");

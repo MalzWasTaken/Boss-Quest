@@ -11,6 +11,18 @@ public class BattleSpawner : MonoBehaviour
     public List<EnemyDefinition> defaultEnemies; // used when testing battle scene directly
     public List<HeroDefinition> heroDefinitions;
 
+    public static BattleSpawner Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    public HeroDefinition GetDefinitionForHero(BaseHero hero)
+    {
+        return heroDefinitions.Find(d => d.heroName == hero.combatantName);
+    }
+
     void Start()
     {
         List<EnemyDefinition> enemiesToSpawn = BattleData.enemiesToSpawn.Count > 0
@@ -39,10 +51,7 @@ public class BattleSpawner : MonoBehaviour
                 hero.currDEF = def.baseDEF;
                 hero.baseAGI = def.baseAGI;
                 hero.currAGI = def.baseAGI;
-                hero.abilities = def.learnableAbilities
-                .Where(a => a.levelRequired <= hero.level)
-                .Select(a => a.ability)
-                .ToList();
+               
             }
 
             // Then override with saved stats if they exist
@@ -59,6 +68,16 @@ public class BattleSpawner : MonoBehaviour
                 hero.level = data.level;
                 hero.expToNextLevel = data.expToNextLevel;
             }
+            
+            //now build abilities using the correct (saved) level
+            if (def != null)
+            {
+                hero.abilities = def.learnableAbilities
+                    .Where(a => a.levelRequired <= hero.level)
+                    .Select(a => a.ability)
+                    .ToList();
+            }
+            
         }
     }
 
@@ -130,4 +149,5 @@ public class BattleSpawner : MonoBehaviour
                 return new List<int> {1};
         }
     }
+
 }

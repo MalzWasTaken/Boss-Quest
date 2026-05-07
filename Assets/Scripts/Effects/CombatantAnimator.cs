@@ -14,6 +14,8 @@ public class CombatantAnimator : MonoBehaviour
     public string walkBool = "isWalking";
     public string walkBackBool = "isWalkingBack";
 
+    protected virtual string GetAttackTrigger() => attackTrigger;
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -68,7 +70,7 @@ public class CombatantAnimator : MonoBehaviour
         }
         else
         {
-            animator?.SetTrigger(attackTrigger);
+            animator?.SetTrigger(GetAttackTrigger());
         }
         
         yield return new WaitForSeconds(0.75f);
@@ -96,6 +98,15 @@ public class CombatantAnimator : MonoBehaviour
         transform.position = startPosition;
         transform.rotation = startRotation;
         GetComponent<HeroAnimator>()?.ResetAnimator();
+        ResetTriggers();
+    }
+
+    public IEnumerator PlayAttackInPlace(float duration = 1f)
+    {
+        string trig = GetAttackTrigger();
+        Debug.Log($"[PLAY IN PLACE] firing trigger '{trig}', animator null? {animator == null}");
+        animator?.SetTrigger(trig);
+        yield return new WaitForSeconds(duration);
         ResetTriggers();
     }
 

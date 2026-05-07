@@ -163,7 +163,7 @@ public class BattleManager : MonoBehaviour
             {
 
                 List<BaseHero> livingHeroes = GetLivingHeroes();
-                BattleAction action = enemy.actions[Random.Range(0, enemy.actions.Count)];
+                BattleAction action = enemy.PickAction();
                 Combatant target = livingHeroes[Random.Range(0, livingHeroes.Count)];
 
                 plannedActions.Add(new PlannedAction
@@ -194,6 +194,9 @@ public class BattleManager : MonoBehaviour
             HeroAnimator heroAnim = plan.user.GetComponent<HeroAnimator>();
             combatantAnim?.ResetTriggers();
             combatantAnim?.SetWalking(false);
+
+            if (combatantAnim is BossAnimator bossAnim)
+                bossAnim.nextAttackTrigger = plan.action.animatorTrigger;
 
             // Redirect to living target if original died
             plan.targets.RemoveAll(t => !t.IsAlive);
@@ -251,6 +254,14 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
+        if (plan.action.isAbility && combatantAnim != null && plan.user is BaseEnemy)
+        {
+            Debug.Log($"[BOSS ABILITY BRANCH] action={plan.action.actionName}, trigger={plan.action.animatorTrigger}, isAbility={plan.action.isAbility}, isAttack={plan.action.isAttack}");
+            BattleCameraController.Instance?.FocusOn(plan.user, target);
+            yield return combatantAnim.PlayAttackInPlace();
+            yield break;
+        }
+
         if (plan.action.isAbility && heroAnim != null)
         {
             // Offensive ability - cast animation
@@ -272,7 +283,8 @@ public class BattleManager : MonoBehaviour
         if (target != null)
             BattleCameraController.Instance?.FocusOn(plan.user, target);
     }
-
+    
+    
     bool CheckBattleOver()
     {
         if (heroes.All(h => !h.IsAlive))

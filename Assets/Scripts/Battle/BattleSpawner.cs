@@ -119,6 +119,7 @@ public class BattleSpawner : MonoBehaviour
                 enemy.rarity = def.rarity;
                 enemy.expReward = def.expReward;
                 enemy.goldReward = def.goldReward;
+                enemy.definition = def;
 
                 // Register with BattleManager
                 if(enemy != null)

@@ -17,5 +17,6 @@ MonoBehaviour:
   targetsAllies: 0
   isAttack: 0
   isAbility: 1
+  animatorTrigger: Roar
   baseDamage: 22
   damageVariance: 0.15

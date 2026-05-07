@@ -10,6 +10,7 @@ public class BaseEnemy : Combatant
     public Rarity rarity;
     public int expReward;
     public int goldReward;
+    public EnemyDefinition definition;
 
     public override void TakeTurn(TurnManager turnManager)
     {
@@ -29,4 +30,14 @@ public class BaseEnemy : Combatant
             Debug.Log($"{combatantName} was defeated!");
         }
     }
+
+    
+    
+    public BattleAction PickAction()
+    {
+        var picked = definition != null ? definition.PickAction() : actions[Random.Range(0, actions.Count)];
+        Debug.Log($"[PICK] {combatantName} picked {picked.actionName} (def null? {definition == null})");
+        return picked;
+    }
 }
+

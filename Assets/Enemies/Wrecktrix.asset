@@ -26,3 +26,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 863aa651b2a8e6646b663c9cff848371, type: 2}
   - {fileID: 11400000, guid: c4b84d19e49cfc24fa1cb859e218c519, type: 2}
   rarity: 3
+  weightedActions:
+  - action: {fileID: 11400000, guid: f3e03b63a8581094d9733b1c67bfd5f9, type: 2}
+    weight: 5
+  - action: {fileID: 11400000, guid: 863aa651b2a8e6646b663c9cff848371, type: 2}
+    weight: 2
+  - action: {fileID: 11400000, guid: c4b84d19e49cfc24fa1cb859e218c519, type: 2}
+    weight: 1

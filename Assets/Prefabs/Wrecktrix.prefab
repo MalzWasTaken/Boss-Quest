@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6262715723327645396}
   - component: {fileID: 4466749840013791293}
   - component: {fileID: 3842466033001581033}
-  - component: {fileID: 6211773339898434432}
   - component: {fileID: 8191461955853995827}
   - component: {fileID: 3276137434872140881}
+  - component: {fileID: 6443198461071843832}
   m_Layer: 0
   m_Name: Wrecktrix
   m_TagString: Enemy
@@ -67,6 +67,7 @@ MonoBehaviour:
   rarity: 0
   expReward: 0
   goldReward: 0
+  definition: {fileID: 0}
 --- !u!114 &4466749840013791293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,24 +102,6 @@ MonoBehaviour:
   diamondIndicator: {fileID: 5798046944133380223}
   nameCanvas: {fileID: 6708742108604777621}
   nameLabel: {fileID: 6951443298736854469}
---- !u!114 &6211773339898434432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901098349231094073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3609f07e7f834fc4d9d97f9470435a3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CombatantAnimator
-  attackDistance: 1.5
-  attackTrigger: Attack
-  hitTrigger: Hit
-  deathTrigger: Death
-  walkBool: isGalloping
-  walkBackBool: isWalkingBack
 --- !u!136 &8191461955853995827
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -191,6 +174,30 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6443198461071843832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901098349231094073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44ab4d0974058a428b373cf04f976b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAnimator
+  attackDistance: 3
+  attackTrigger: Attack
+  hitTrigger: Hit
+  deathTrigger: Death
+  walkBool: isWalking
+  walkBackBool: isWalkingBack
+  nextAttackTrigger: 
+  allBossTriggers:
+  - Swipe
+  - JumpAttack
+  - Attack
+  - Roar
 --- !u!1001 &7421586561036444636
 PrefabInstance:
   m_ObjectHideFlags: 0

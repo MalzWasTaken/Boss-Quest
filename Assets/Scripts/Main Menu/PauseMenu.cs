@@ -29,7 +29,11 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (isPaused)
+        if (CameraFollow.SuppressCursorLock)
+        {
+            // do nothing - another UI controls the cursor
+        }
+        else if (isPaused)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -39,6 +43,7 @@ public class PauseMenu : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (settingsPanel.activeSelf)

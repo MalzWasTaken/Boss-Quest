@@ -52,7 +52,13 @@ public class AudioManager : MonoBehaviour
         PlayMusicWithFade(battleMusic, true);
     }
 
-    public void PlayBossMusic() => PlayMusicWithFade(bossMusic, true);
+    public void PlayBossMusic()
+    {
+        if (musicSource.clip == overworldMusic)
+            savedOverworldTime = musicSource.time;
+
+        PlayMusicWithFade(bossMusic, true);
+    }
     public void PlayVictoryJingle()
     {
        PlayMusicWithFade(victoryJingle, false);

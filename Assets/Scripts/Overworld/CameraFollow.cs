@@ -21,6 +21,22 @@ public class CameraFollow : MonoBehaviour
     private float targetYaw = 0f;
     private Rigidbody targetRb;
 
+    // public static bool SuppressCursorLock = false;
+
+
+
+
+    private static bool _suppressCursorLock = false;
+    public static bool SuppressCursorLock
+    {
+        get => _suppressCursorLock;
+        set
+        {
+            if (_suppressCursorLock != value)
+                Debug.Log($"[Suppress] Changed to {value}\n{System.Environment.StackTrace}");
+            _suppressCursorLock = value;
+        }
+    }
 
     void Start()
     {
@@ -32,6 +48,16 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+
+        if (SuppressCursorLock)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+            return;
+        }
+
+        Debug.Log($"[Camera] suppress={SuppressCursorLock}, lockState={Cursor.lockState}");
+
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (Cursor.lockState == CursorLockMode.Locked)

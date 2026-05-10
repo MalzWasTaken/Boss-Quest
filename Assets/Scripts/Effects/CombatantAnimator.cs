@@ -119,7 +119,18 @@ public class CombatantAnimator : MonoBehaviour
 
     public void PlayHitAnimation()
     {
-        animator?.SetTrigger(hitTrigger);
+        if (animator == null) return;
+
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        if (currentState.IsName("Hit") || currentState.IsTag("Hit"))
+        {
+            animator.Play("Hit",0,0f);
+        }
+        else
+        {
+            animator?.SetTrigger(hitTrigger);
+        }
+        
     }
 
     public void PlayDeathAnimation()

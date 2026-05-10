@@ -5,11 +5,13 @@ public static class BattleData
     public static List<EnemyDefinition> enemiesToSpawn = new List<EnemyDefinition>();
     public static List<BattleFormation> possibleFormations = new List<BattleFormation>();
     public static string returnScene = "Overworld";
+    public static string gameOverScene = "MainMenu";
     public static string triggeredEnemyID = "";
     public static Vector3 playerReturnPosition;
     public static List<HeroData> heroStats = new List<HeroData>();
     public static List<string> defeatedEnemyIDs = new List<string>();
     public static bool isFinalBoss = false;
+    public static bool hasShownIntro = false;
 }
 
 public class HeroData

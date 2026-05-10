@@ -13,6 +13,7 @@ public class OverworldEnemy : MonoBehaviour
     public float wanderRadius = 5f;
     public float chaseSpeed = 4f;
     public float wanderSpeed = 2f;
+    public float triggerDistance = 1.4f;
 
     public Transform player;
     private NavMeshAgent agent;
@@ -56,7 +57,7 @@ public class OverworldEnemy : MonoBehaviour
                 SetNewWanderTarget();
         }
 
-        if (distance <= 1.4f)
+        if (distance <= triggerDistance)
             TriggerBattle();
     }
 
@@ -96,11 +97,18 @@ public class OverworldEnemy : MonoBehaviour
         BattleData.playerReturnPosition = player.position;
         Debug.Log($"[OverworldEnemy] Set playerReturnPosition to {player.position}, player ref = {player.name}");
 
-        AudioManager.Instance?.PlayBattleMusic();
+        if (formation.isFinalBoss)
+            AudioManager.Instance?.PlayBossMusic();
+        else
+            AudioManager.Instance?.PlayBattleMusic();
+        string sceneToLoad = formation.isFinalBoss ? "BossScene" : "BattleScene";
+        var loadOp = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneToLoad);
+        loadOp.allowSceneActivation = false;
+
         WarpEffect.Instance.TriggerWarp(() =>
         {
             Time.timeScale = 1f;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("BattleScene");
+            loadOp.allowSceneActivation = true;
         });
     }
 

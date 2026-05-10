@@ -39,6 +39,8 @@ public class BattleMenuUI : MonoBehaviour
     private BattleAction pendingAction; //holds chosen action
     
     private BaseHero currentHero;
+
+    public Button runButton;
     public void ShowForHero(BaseHero hero)
     {
         currentHero = hero;
@@ -46,6 +48,7 @@ public class BattleMenuUI : MonoBehaviour
 
         //grey out abilities button if none
         abilitiesButton.interactable = hero.abilities != null && hero.abilities.Count > 0;
+        runButton.interactable = !BattleData.isFinalBoss;
         SetState(MenuState.ActionSelect);
     }
 
@@ -111,6 +114,12 @@ public class BattleMenuUI : MonoBehaviour
 
     public void OnRunPressed()
     {
+        if (BattleData.isFinalBoss)
+        {
+            BattleLogUI.Instance?.AddMessage("There is no escape!");
+            return;
+        }
+
         SetState(MenuState.Inactive);
 
         if (Random.value > 0.5f)
@@ -359,4 +368,6 @@ public void OnEnemy2Selected()
     {
         
     }
+
+    
 }

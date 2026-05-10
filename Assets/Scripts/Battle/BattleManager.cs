@@ -227,6 +227,7 @@ public class BattleManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1.8f);
+            BattleCameraController.Instance?.EndFocus();
             if (CheckBattleOver()) yield break;
         }
 

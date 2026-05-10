@@ -71,7 +71,7 @@ public class BattleResultUI : MonoBehaviour {
 
         gameOverReturnButton.onClick.AddListener(() =>
         {
-            StartCoroutine(ReturnToOverworld());
+            UnityEngine.SceneManagement.SceneManager.LoadScene(BattleData.gameOverScene);
         });
     }
 

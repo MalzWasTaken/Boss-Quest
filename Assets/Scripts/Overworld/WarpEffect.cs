@@ -1,62 +1,38 @@
-
 using UnityEngine;
+using UnityEngine.Rendering;
 using System.Collections;
 
-[RequireComponent(typeof(Camera))]
 public class WarpEffect : MonoBehaviour
 {
     public static WarpEffect Instance;
 
-    public Material warpMaterial;
+    public Volume warpVolume;
     public float effectDuration = 1f;
 
-    private float warpAmount = 0f;
-    private float blurAmount = 0f;
-    private float chromaAmount = 0f;
-    private bool isWarping = false;
-
-    void Awake()
-    {
-        Instance = this;
-    }
+    void Awake() { Instance = this; }
 
     public void TriggerWarp(System.Action onComplete)
     {
+        Debug.Log($"[Warp] TriggerWarp called. warpVolume = {warpVolume}, gameObject active = {gameObject.activeInHierarchy}");
+
         StartCoroutine(WarpRoutine(onComplete));
     }
 
     IEnumerator WarpRoutine(System.Action onComplete)
     {
-        isWarping = true;
+        if (warpVolume == null) { onComplete?.Invoke(); yield break; }
+
         float elapsed = 0f;
-
-
-        // Ramp up warp
         while (elapsed < effectDuration)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / effectDuration;
-            float eased = Mathf.Pow(t, 2f);
-
-            warpAmount = Mathf.Lerp(0f, 10f, eased);
-            blurAmount = Mathf.Lerp(0f, 0.3f, eased);
-            chromaAmount = Mathf.Lerp(0f, 0.05f, eased);
-
-            warpMaterial.SetFloat("_WarpAmount", warpAmount);
-            warpMaterial.SetFloat("_BlurAmount", blurAmount);
-            warpMaterial.SetFloat("_ChromaAmount", chromaAmount);
-
+            if (warpVolume == null) yield break;
+            warpVolume.weight = t;
             yield return null;
         }
 
+        if (warpVolume != null) warpVolume.weight = 1f;
         onComplete?.Invoke();
-    }
-
-    void OnRenderImage(RenderTexture src, RenderTexture dest)
-    {
-        if (isWarping && warpMaterial != null)
-            Graphics.Blit(src, dest, warpMaterial);
-        else
-            Graphics.Blit(src, dest);
     }
 }

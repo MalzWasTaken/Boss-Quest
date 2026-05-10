@@ -2357,8 +2357,8 @@ MonoBehaviour:
   focusDistance: 3.5
   focusHeight: 1.5
   focusOffsetSide: -3
-  bossDistance: 7
-  bossHeight: 4
+  bossDistance: 6
+  bossHeight: 4.5
   bossSideOffset: -1
   bossFOV: 70
   driftAmountX: 0.2

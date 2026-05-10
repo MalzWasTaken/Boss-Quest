@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c44ab4d0974058a428b373cf04f976b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAnimator
-  attackDistance: 3
+  attackDistance: 6
   attackTrigger: Attack
   hitTrigger: Hit
   deathTrigger: Death

@@ -57,6 +57,7 @@ public class BossDoor : MonoBehaviour
         int playerLevel = GetPlayerLevel();
         confirmOpen = true;
         prompt.SetActive(false);
+        AudioManager.Instance?.PauseOverworldMusic(); 
 
         if (playerLevel < recommendedLevel)
         {
@@ -90,6 +91,7 @@ public class BossDoor : MonoBehaviour
 
         // Hand cursor back to normal gameplay
         CameraFollow.SuppressCursorLock = false;
+        AudioManager.Instance?.PlayOverworldMusic();
 
         // If still in range, show prompt again
         float dist = Vector3.Distance(transform.position, player.position);

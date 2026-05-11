@@ -17,6 +17,12 @@ public class CameraFollow : MonoBehaviour
     public float collisionRadius = 0.3f;    // sphere radius for the cast
     public float collisionBuffer = 0.2f;    // pull camera this far in from wall
 
+    [Header("Vertical Look")]
+    public float minPitch = -30f;
+    public float maxPitch = 60f;
+
+    private float currentPitch = 15f;
+
     private float currentYaw = 0f;
     private float targetYaw = 0f;
     private Rigidbody targetRb;
@@ -80,6 +86,8 @@ public class CameraFollow : MonoBehaviour
 
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
         currentYaw += mouseDelta.x * mouseSensitivity;
+        currentPitch -= mouseDelta.y * mouseSensitivity;
+        currentPitch = Mathf.Clamp(currentPitch, minPitch, maxPitch);
 
         bool playerMoving = targetRb != null && targetRb.linearVelocity.magnitude > 0.1f;
         bool isStrafing = Keyboard.current.aKey.isPressed || Keyboard.current.dKey.isPressed;
@@ -92,7 +100,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         // Calculate desired position (where camera WANTS to be)
-        Quaternion rotation = Quaternion.Euler(0f, currentYaw, 0f);
+        Quaternion rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
         Vector3 desiredPosition = target.position + rotation * new Vector3(0f, height, -distance);
 
         // Camera collision check — SphereCast from player toward desired camera position

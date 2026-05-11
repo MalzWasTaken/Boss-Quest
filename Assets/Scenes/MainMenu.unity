@@ -6155,7 +6155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 1267096965}
-  overworldMusic: {fileID: 8300000, guid: f32af44257be2f44ba6872f968cb8e85, type: 3}
+  overworldMusic: {fileID: 8300000, guid: 36cae96b080e48c41a35d4da9b565340, type: 3}
   battleMusic: {fileID: 8300000, guid: ccad4187ca0bcb544b1e705921ee4095, type: 3}
   bossMusic: {fileID: 8300000, guid: fbba1b5b9000a3f4dae91bdda60e7faf, type: 3}
   victoryJingle: {fileID: 8300000, guid: 4c32253d7b7bc33448143abbdb6e7eef, type: 3}

@@ -23,3 +23,7 @@ MonoBehaviour:
   damageVariance: 0.2
   criticalChance: 0.1
   criticalMultiplier: 1.75
+  earthShatterPrefab: {fileID: 8141289604436360915, guid: 548add6de4254d84c8ac04c2bf6a59ae, type: 3}
+  vfxDelay: 0.2
+  vfxLifetime: 3
+  spawnAtTarget: 1

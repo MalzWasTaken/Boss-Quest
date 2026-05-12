@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip battleMusic;
     public AudioClip bossMusic;
     public AudioClip victoryJingle;
+    public AudioClip gameOverJingle;
 
     [Header("Settings")]
     public float musicVolume = 0.7f;
@@ -71,12 +72,22 @@ public class AudioManager : MonoBehaviour
        PlayMusicWithFade(victoryJingle, false);
     }
 
+    public void PlayGameOverJingle()
+    {
+        PlayMusicWithFade(gameOverJingle, false); 
+    }
+
     void PlayMusicWithFade(AudioClip clip, bool loop)
     {
         if (clip == null) return;
         if (musicSource.clip == clip && musicSource.isPlaying) return;
         StopAllCoroutines();
         StartCoroutine(FadeToClip(clip,loop));
+    }
+
+    public void ResetSavedTime()
+    {
+        savedOverworldTime = 0f;
     }
 
     IEnumerator FadeToClip(AudioClip clip, bool loop)

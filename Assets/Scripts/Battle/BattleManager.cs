@@ -307,6 +307,7 @@ public class BattleManager : MonoBehaviour
 
             if (BattleData.isFinalBoss)
             {
+                StartCoroutine(BossKillSequence());
                 RewardManager.Instance?.GiveRewardsGameClear(heroes, enemies);
             }
             else
@@ -316,6 +317,31 @@ public class BattleManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    IEnumerator BossKillSequence()
+    {
+        
+        battleMenuUI?.HideAllBattleUI();
+
+        AudioManager.Instance?.StopMusic();
+
+        // Zoom camera in on the boss corpse
+        BattleCameraController.Instance?.FocusOnDefeatedBoss();
+
+        // Slow motion
+        Time.timeScale = 0.2f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        // Hold for 2.5 real-time seconds
+        yield return new WaitForSecondsRealtime(2.5f);
+
+        // Restore normal time
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+
+        // Trigger game clear
+        RewardManager.Instance?.GiveRewardsGameClear(heroes, enemies);
     }
 
     IEnumerator ShowGameOverAfterDelay()

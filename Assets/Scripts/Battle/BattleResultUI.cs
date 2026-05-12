@@ -47,7 +47,6 @@ public class BattleResultUI : MonoBehaviour {
         yield return StartCoroutine(FadeIn());
 
         AudioManager.Instance?.PlayVictoryJingle();
-
         victoryPanel.SetActive(true);
         victoryExpText.text = $"EXP Gained: {expGained}";
         victoryGoldText.text = $"Gold Gained: {goldGained}";
@@ -66,11 +65,14 @@ public class BattleResultUI : MonoBehaviour {
 
     IEnumerator ShowGameOverRoutine()
     {
+        AudioManager.Instance.PlayGameOverJingle();
         yield return StartCoroutine(FadeIn());
         gameOverPanel.SetActive(true);
 
         gameOverReturnButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance?.ResetSavedTime();
+            AudioManager.Instance?.PlayOverworldMusic();
             UnityEngine.SceneManagement.SceneManager.LoadScene(BattleData.gameOverScene);
         });
     }

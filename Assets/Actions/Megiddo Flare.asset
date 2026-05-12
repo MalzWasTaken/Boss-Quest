@@ -20,3 +20,7 @@ MonoBehaviour:
   animatorTrigger: Roar
   baseDamage: 22
   damageVariance: 0.15
+  breathPrefab: {fileID: 8438309243910822684, guid: f759c5313f331cb48ac1622f866edc62, type: 3}
+  breathSpawnDelay: 0.2
+  breathDuration: 3.8
+  damageDelay: 1.2

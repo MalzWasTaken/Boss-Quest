@@ -15,4 +15,8 @@ MonoBehaviour:
   actionName: Heal
   mpCost: 5
   targetsAllies: 1
-  healAmount: 30
+  isAttack: 0
+  isAbility: 0
+  animatorTrigger: Attack
+  baseHeal: 50
+  healVariance: 0.12

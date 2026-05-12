@@ -4,6 +4,9 @@ public class BossAnimator : CombatantAnimator
 {
     [HideInInspector] public string nextAttackTrigger;
 
+    [Header("VFX Mount Points")]
+    public Transform mouthPoint; // assign the MouthPoint child in Inspector
+
     protected override string GetAttackTrigger()
     {
         return string.IsNullOrEmpty(nextAttackTrigger) ? attackTrigger : nextAttackTrigger;

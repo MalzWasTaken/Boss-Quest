@@ -13,7 +13,6 @@ public class GameClearUI : MonoBehaviour
     [Header("Stats")]
     public TMP_Text titleText;
     public TMP_Text levelText;
-    public TMP_Text goldText;
     public TMP_Text flavorText;
 
     [Header("Button")]
@@ -41,16 +40,16 @@ public class GameClearUI : MonoBehaviour
         if (clearPanel != null) clearPanel.SetActive(true);
 
         int highestLevel = 1;
-        int totalGold = 0;
-        foreach (var hero in BattleData.heroStats)
-        {
-            if (hero.level > highestLevel) highestLevel = hero.level;
-            totalGold += hero.gold;
-        }
+        // int totalGold = 0;
+        // foreach (var hero in BattleData.heroStats)
+        // {
+        //     if (hero.level > highestLevel) highestLevel = hero.level;
+        //     totalGold += hero.gold;
+        // }
 
         if (titleText != null) titleText.text = "The Overlord has fallen.";
         if (levelText != null) levelText.text = $"Party Level: {highestLevel}";
-        if (goldText != null) goldText.text = $"Gold: {totalGold}";
+        // if (goldText != null) goldText.text = $"Gold: {totalGold}";
         if (flavorText != null) flavorText.text = "Your divine powers are restored.\nThe world is saved.";
 
         if (mainMenuButton != null)

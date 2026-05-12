@@ -25,6 +25,8 @@ public class BattleMenuUI : MonoBehaviour
 
     public GameObject allyPanel; //ally select
 
+    public GameObject heroStatusPanel;
+
     public GameObject buttonPrefab;
 
     public TMP_Text statusText;
@@ -337,16 +339,27 @@ public class BattleMenuUI : MonoBehaviour
         }
     }
 
+    public void HideAllBattleUI()
+    {
+        if (actionPanel != null) actionPanel.SetActive(false);
+        if (abilityPanel != null) abilityPanel.SetActive(false);
+        if (itemPanel != null) itemPanel.SetActive(false);
+        if (enemyPanel != null) enemyPanel.SetActive(false);
+        if (allyPanel != null) allyPanel.SetActive(false);
+        if (heroStatusPanel != null) heroStatusPanel.SetActive(false);
+        if (statusText != null) statusText.gameObject.SetActive(false);
+    }
+
 
     public void OnEnemy1Selected()
-{
-    OnEnemySelected(BattleManager.Instance.enemies[0]);
-}
+    {
+        OnEnemySelected(BattleManager.Instance.enemies[0]);
+    }
 
-public void OnEnemy2Selected()
-{
-    OnEnemySelected(BattleManager.Instance.enemies[1]);
-}
+    public void OnEnemy2Selected()
+    {
+        OnEnemySelected(BattleManager.Instance.enemies[1]);
+    }
 
     void BuildItemList()
     {

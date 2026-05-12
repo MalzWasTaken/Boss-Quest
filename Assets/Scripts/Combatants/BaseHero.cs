@@ -25,6 +25,8 @@ public class BaseHero : Combatant
         if (!IsAlive)
         {
             GetComponent<HeroAnimator>()?.PlayDeath();
+            isDefending = false;
+            GetComponent<HeroAnimator>()?.StopBlocking();
             Debug.Log($"{combatantName} died!");
             //battle log message
             BattleLogUI.Instance?.AddMessage($"{combatantName} died!");

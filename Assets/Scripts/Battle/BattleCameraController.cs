@@ -132,6 +132,39 @@ public class BattleCameraController : MonoBehaviour
         transform.rotation = bossBaseRotation;
     }
 
+    public void FocusOnDefeatedBoss()
+    {
+        isFocusing = true; // pause any drift
+        StopAllCoroutines();
+        StartCoroutine(DefeatedBossRoutine());
+    }
+
+    IEnumerator DefeatedBossRoutine()
+    {
+        Transform boss = null;
+        if (BattleManager.Instance != null && BattleManager.Instance.enemies.Count > 0)
+            boss = BattleManager.Instance.enemies[0].transform;
+        if (boss == null) yield break;
+
+        Vector3 startPos = transform.position;
+        Vector3 directionToBoss = (boss.position - orbitTarget.position).normalized;
+        Vector3 targetPos = boss.position
+            - directionToBoss * 6f
+            + Vector3.up * 3f;
+
+        float duration = 2f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime; // unscaled so slow-mo doesn't slow the camera too
+            float t = elapsed / duration;
+            transform.position = Vector3.Lerp(startPos, targetPos, t);
+            transform.LookAt(boss.position + Vector3.up * 1f);
+            yield return null;
+        }
+    }
+
     IEnumerator FocusRoutine(Combatant attacker, Combatant target, bool introShot = false)
     {
         Transform hero = attacker is BaseHero ? attacker.transform : target.transform;

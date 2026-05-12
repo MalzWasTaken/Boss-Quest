@@ -62,7 +62,7 @@ public class CameraFollow : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[Camera] suppress={SuppressCursorLock}, lockState={Cursor.lockState}");
+        // Debug.Log($"[Camera] suppress={SuppressCursorLock}, lockState={Cursor.lockState}");
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {

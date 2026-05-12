@@ -34,11 +34,11 @@ public class OverworldHUD : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
-        {
-            isExpanded = !isExpanded;
-            RefreshLayout();
-        }
+        // if (Keyboard.current.tabKey.wasPressedThisFrame)
+        // {
+        //     isExpanded = !isExpanded;
+        //     RefreshLayout();
+        // }
 
         UpdateBars();
     }

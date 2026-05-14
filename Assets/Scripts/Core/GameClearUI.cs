@@ -40,12 +40,10 @@ public class GameClearUI : MonoBehaviour
         if (clearPanel != null) clearPanel.SetActive(true);
 
         int highestLevel = 1;
-        // int totalGold = 0;
-        // foreach (var hero in BattleData.heroStats)
-        // {
-        //     if (hero.level > highestLevel) highestLevel = hero.level;
-        //     totalGold += hero.gold;
-        // }
+        foreach (var hero in BattleData.heroStats)
+        {
+            if (hero.level > highestLevel) highestLevel = hero.level;
+        }
 
         if (titleText != null) titleText.text = "The Overlord has fallen.";
         if (levelText != null) levelText.text = $"Party Level: {highestLevel}";

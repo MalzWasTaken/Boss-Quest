@@ -53,7 +53,7 @@ public class DoubleSlash : BattleAction
                 BattleLogUI.Instance?.AddMessage($"Critical hit!");
 
             }
-
+            
             damage = Mathf.Max(1, damage);
 
             

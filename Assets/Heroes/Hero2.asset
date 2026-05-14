@@ -15,7 +15,7 @@ MonoBehaviour:
   heroName: SlimeKiller
   maxHP: 100
   maxMP: 60
-  baseATK: 15
+  baseATK: 20
   baseDEF: 10
   baseAGI: 20
   expToNextLevel: 30

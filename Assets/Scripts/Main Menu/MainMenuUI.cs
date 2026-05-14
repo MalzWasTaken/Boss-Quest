@@ -130,6 +130,8 @@ public class MainMenuUI : MonoBehaviour
     {
         if (isNewGame)
         {
+            ResetBattleData();
+            BattleData.hasShownIntro = false;
             GameManager.Instance.NewGame(slot);
             StartCoroutine(LoadOverworld());
         }
@@ -137,11 +139,25 @@ public class MainMenuUI : MonoBehaviour
         {
             if (SaveSystem.SlotExists(slot))
             {
+                ResetBattleData();
+                BattleData.hasShownIntro = true;
                 GameManager.Instance.LoadGame(slot);
                 ApplySaveToHeroData();
                 StartCoroutine(LoadOverworld());
             }
         }
+    }
+
+    void ResetBattleData()
+    {
+        BattleData.heroStats.Clear();
+        BattleData.enemiesToSpawn.Clear();
+        BattleData.defeatedEnemyIDs.Clear();
+        BattleData.isFinalBoss = false;
+        BattleData.hasShownIntro = false;
+        BattleData.triggeredEnemyID = "";
+        BattleData.playerReturnPosition = Vector3.zero;
+        BattleData.returnScene = "";
     }
 
     void ApplySaveToHeroData()

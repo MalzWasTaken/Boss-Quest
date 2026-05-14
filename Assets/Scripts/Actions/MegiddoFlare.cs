@@ -45,6 +45,9 @@ public class MegiddoFlare : BattleAction
         {
             float variance = Random.Range(1f - damageVariance, 1f + damageVariance);
             float damage = (baseDamage + user.currATK * 0.7f) * variance - target.currDEF * 0.5f;
+           Debug.Log($"[Damage] {target.combatantName} isDefending={target.isDefending}, damage before defend={damage}");
+            if (target.isDefending) damage *= 0.5f;
+            Debug.Log($"[Damage] damage after defend check={damage}");
             damage = Mathf.Max(1, damage);
             float roundedDamage = Mathf.RoundToInt(damage);
 

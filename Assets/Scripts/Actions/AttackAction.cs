@@ -42,6 +42,9 @@ public class AttackAction : BattleAction
 
             }
 
+            Debug.Log($"[Damage] {target.combatantName} isDefending={target.isDefending}, damage before defend={damage}");
+            if (target.isDefending) damage *= 0.5f;
+            Debug.Log($"[Damage] damage after defend check={damage}");
             damage = Mathf.Max(1, damage);
             float roundedDamage = Mathf.RoundToInt(damage);
 
